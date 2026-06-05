@@ -9,12 +9,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MOJÓN">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
 </head>
 <body>
   <div class="app-container">
@@ -38,17 +38,17 @@
         </div>
       </div>
       
-      <!-- Campos dinámicos de nombres -->
+      <!-- Campos dinámicos de nombres (siempre 4) -->
       <div id="nombresJugadores" class="nombres-grid"></div>
       
       <!-- Botonera principal -->
       <div class="botonera">
         <button id="btnIniciarPartida" class="btn-primary">🀄 Iniciar partida</button>
-        <button id="btnCancelarPartida" class="btn-cancel" disabled>❌ Cancelar partida</button>
         <button id="btnAnotacion" class="btn-secondary" disabled>📝 Anotación</button>
         <button id="btnEstadisticas" class="btn-secondary">📊 Estadísticas</button>
         <button id="btnImportExport" class="btn-secondary">💾 Import/Export</button>
         <button id="btnAyuda" class="btn-secondary">❓ Ayuda</button>
+        <button id="btnCancelarPartida" class="btn-cancel" disabled>❌ Cancelar partida</button>
       </div>
     </div>
 
@@ -60,15 +60,13 @@
 
   <!-- ==================== MODALES ==================== -->
 
-  <!-- MODAL ANOTACIÓN - MODIFICADO -->
+  <!-- MODAL ANOTACIÓN -->
   <div id="modalAnotacion" class="modal">
     <div class="modal-content modal-large">
       <h3>📝 Anotar mano</h3>
       
-      <!-- Separador visual -->
       <div class="separador-modal"></div>
 
-      <!-- Checkbox Un jugador se pegó - CON TAMAÑO DE LETRA MÁS GRANDE -->
       <div class="form-group-pegue">
         <label class="checkbox-label-pegue">
           <input type="checkbox" id="tipoPegue"> 🎯 Un jugador se pegó
@@ -114,7 +112,7 @@
       </div>
 
       <div id="tabDiario" class="tab-content active">
-        <h3>📊 Resumen del día <span id="fechaActual"></span></h3>
+        <h3>Resumen del día <span id="fechaActual"></span></h3>
         <div id="statsDiario" class="stats-table-container"></div>
         <h3>📆 Días anteriores</h3>
         <div id="statsDiasAnteriores" class="stats-table-container"></div>
