@@ -28,7 +28,6 @@
       position: relative;
     }
 
-    /* Botón cerrar superior */
     .btn-cerrar-superior {
       position: absolute;
       top: 20px;
@@ -52,7 +51,6 @@
       transform: scale(1.02);
     }
 
-    /* Header */
     .manual-header {
       text-align: center;
       margin-bottom: 24px;
@@ -81,7 +79,28 @@
       margin-top: 8px;
     }
 
-    /* Índice */
+    /* DEDICATORIA */
+    .dedicatoria {
+      background: linear-gradient(135deg, #f0e6d8 0%, #e6d5bd 100%);
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+      border-left: 4px solid #8b5a2b;
+      border-right: 4px solid #8b5a2b;
+      font-style: italic;
+      color: #4a2e1e;
+    }
+
+    .dedicatoria p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .dedicatoria strong {
+      color: #8b5a2b;
+    }
+
     .indice {
       background: #f4e9db;
       border-radius: 20px;
@@ -119,7 +138,6 @@
       padding-left: 6px;
     }
 
-    /* Secciones */
     .seccion {
       margin-bottom: 32px;
       scroll-margin-top: 20px;
@@ -157,7 +175,6 @@
       margin: 6px 0;
     }
 
-    /* Tablas */
     .tabla {
       overflow-x: auto;
       margin: 16px 0;
@@ -184,7 +201,6 @@
       background: #fff8ef;
     }
 
-    /* Tarjetas de ejemplo */
     .ejemplo {
       background: #f4e9db;
       border-radius: 20px;
@@ -201,34 +217,6 @@
       margin-bottom: 8px;
     }
 
-    /* Grid de estadísticas */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      margin: 16px 0;
-    }
-
-    .stat-card {
-      background: #f4e9db;
-      border-radius: 16px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .stat-card .label {
-      font-size: 0.7rem;
-      color: #7a5a3a;
-      text-transform: uppercase;
-    }
-
-    .stat-card .value {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #4a2e1e;
-    }
-
-    /* FAQ */
     .faq-item {
       margin-bottom: 20px;
       border-bottom: 1px solid #e6d5bd;
@@ -249,7 +237,6 @@
       padding-left: 28px;
     }
 
-    /* Botón ir al inicio */
     .ir-inicio {
       display: inline-flex;
       align-items: center;
@@ -271,7 +258,6 @@
       transform: scale(1.02);
     }
 
-    /* Botón cerrar inferior */
     .btn-cerrar-inferior {
       background: #9c4d2e;
       color: white;
@@ -293,7 +279,6 @@
       transform: scale(1.02);
     }
 
-    /* Contenedor de botones inferiores */
     .botones-inferiores {
       display: flex;
       justify-content: space-between;
@@ -305,7 +290,6 @@
       gap: 12px;
     }
 
-    /* Créditos */
     .creditos {
       background: linear-gradient(135deg, #8b5a2b 0%, #5c3a1a 100%);
       border-radius: 24px;
@@ -334,35 +318,25 @@
       text-decoration: underline;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
       .manual-container {
         padding: 16px;
       }
-      
       .indice-grid {
         grid-template-columns: 1fr;
       }
-      
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      
       .btn-cerrar-superior {
         position: static;
         margin-bottom: 16px;
         display: inline-flex;
         justify-content: center;
       }
-      
       .manual-header {
         margin-top: 0;
       }
-      
       .botones-inferiores {
         flex-direction: column;
       }
-      
       .botones-inferiores button {
         width: 100%;
         justify-content: center;
@@ -372,19 +346,28 @@
 </head>
 <body>
   <div class="manual-container">
-    <!-- Botón cerrar superior -->
     <button class="btn-cerrar-superior" onclick="cerrarManual()">
       ✖️ Cerrar manual
     </button>
 
-    <!-- Header -->
     <div class="manual-header">
       <h1>📖 MANUAL DE USUARIO</h1>
       <p class="sub">ApuntaMOJÓN - Control de partidas de dominó</p>
-      <span class="version">Versión 1.0.0 - 2026</span>
+      <span class="version">Versión 1.0.0 - Junio/2026</span>
     </div>
 
-    <!-- Índice -->
+    <!-- DEDICATORIA -->
+    <div class="dedicatoria">
+      <p>✨ Dedicado con amor y cariño a: ✨</p>
+      <p>Mis amigos y hermanos de <strong>Gerona</strong>, donde mejor dominó se juega en la Isla,</p>
+      <p>en la casa de mi amigo-hermano <strong>Oneidis "El Cojo"</strong>, ¿joyero?, el mejor,</p>
+      <p>a <strong>Pavón, Mayeta, Noel</strong> y en especial a <strong>Jennellys y Sisy</strong>,</p>
+      <p>que tan apasionadas son al mojón, un juego que une a la familia y amigos.</p>
+      <p>No importa el nivel, lo que hayas visto antes de dominó,</p>
+      <p>lo juegas un día y te encanta, entonces quieres jugar todos los días y a divertirte.</p>
+      <p>Con amor y cariño a todos — <strong>Richard</strong> 💩</p>
+    </div>
+
     <div class="indice">
       <h2>📑 Índice</h2>
       <div class="indice-grid">
@@ -401,7 +384,6 @@
       </div>
     </div>
 
-    <!-- 1. Introducción -->
     <div class="seccion" id="introduccion">
       <h2>1. 📌 Introducción</h2>
       <p><strong>ApuntaMOJÓN</strong> es una aplicación diseñada para controlar partidas de dominó en la variante donde el perdedor es quien completa la palabra <strong>MOJÓN</strong>. La app permite registrar manos, asignar letras según los tantos acumulados, y mantener estadísticas detalladas de todos los jugadores.</p>
@@ -410,7 +392,6 @@
       <p>✓ Todos los datos se guardan localmente</p>
     </div>
 
-    <!-- 2. Instalación -->
     <div class="seccion" id="instalacion">
       <h2>2. 📱 Instalación</h2>
       <h3>Android (Chrome)</h3>
@@ -429,19 +410,18 @@
       </ol>
     </div>
 
-    <!-- 3. Primeros pasos -->
     <div class="seccion" id="primeros-pasos">
       <h2>3. 🎮 Primeros pasos</h2>
       <p>Al abrir la app, verás la <strong>Mesa de juego</strong> con los siguientes elementos:</p>
       <div class="ejemplo">
         <div class="ejemplo-titulo">🎲 Mesa de juego</div>
-        <pre>┌───────────────────────────┐
+        <pre>┌─────────────────────────────────┐
 │ Jugador 1: [Juan      ]        │
-│ 📜 Progreso: [⚪] [0/6]        │
-├───────────────────────────┤
-│ [🀄 Iniciar] [📝 Anotación]    │
-│ [📊 Stats] [💾 Import/Export]  │
-└───────────────────────────┘</pre>
+│ 📜 Progreso: [⚪] [0/6]         │
+├─────────────────────────────────┤
+│ [🀄 Iniciar] [📝 Anotación]     │
+│ [📊 Stats] [💾 Import/Export]   │
+└─────────────────────────────────┘</pre>
       </div>
       <p><strong>Botones principales:</strong></p>
       <ul>
@@ -454,7 +434,6 @@
       </ul>
     </div>
 
-    <!-- 4. Reglas del juego -->
     <div class="seccion" id="reglas">
       <h2>4. 📏 Reglas del juego</h2>
       <h3>Escala de tantos a letras</h3>
@@ -493,19 +472,18 @@
 
       <h3>Tipos de manos</h3>
       <ul>
-        <li><strong>Cierre:</strong> Un jugador cierra el juego → el que cierra aún puede ser perdedor</li>
-        <li><strong>Pegue:</strong> Un jugador se queda sin fichas → el que se pega no puede ser perdedor</li>
+        <li><strong>Cierre:</strong> Un jugador cierra el juego → puede ser perdedor</li>
+        <li><strong>Pegue:</strong> Un jugador se queda sin fichas → no puede ser perdedor</li>
       </ul>
     </div>
 
-    <!-- 5. Uso de la app -->
     <div class="seccion" id="uso">
       <h2>5. 📝 Uso de la aplicación</h2>
       <h3>Cómo anotar una mano</h3>
       <ol>
         <li>Presiona <strong>"Anotación"</strong></li>
         <li>Marca <strong>"Un jugador se pegó"</strong> si aplica</li>
-        <li>Selecciona quién cerró o se pegó</li>
+        <li>Selecciona quién cerró o pegó</li>
         <li>Selecciona el/los perdedores</li>
         <li>Ingresa los tantos acumulados</li>
         <li>Presiona <strong>"Aceptar"</strong></li>
@@ -521,12 +499,11 @@
       </div>
     </div>
 
-    <!-- 6. Estadísticas -->
     <div class="seccion" id="estadisticas">
       <h2>6. 📊 Estadísticas</h2>
       <h3>Significado de las columnas</h3>
       <ul>
-        <li><strong>+Gorda:</strong> Máximo de tantos con que perdió, el conteo más gordo con que ha perdido</li>
+        <li><strong>+Gorda:</strong> Máximo de tantos con que perdió</li>
         <li><strong>% Mojón:</strong> Porcentaje de partidas perdidas</li>
         <li><strong>Mojones:</strong> Total de veces que completó MOJÓN</li>
         <li><strong>Cierres:</strong> Veces que cerró una mano</li>
@@ -546,16 +523,15 @@
           </tbody>
         </table>
       </div>
-      <p><strong>Orden:</strong> Descendente por Mojones (los más "malos" arriba). En caso de empate por mojones, por +Gorda.</p>
+      <p><strong>Orden:</strong> Descendente por Mojones (los más "malos" arriba). En caso de empate, por +Gorda.</p>
     </div>
 
-    <!-- 7. Gestión de datos -->
     <div class="seccion" id="gestion">
       <h2>7. 💾 Gestión de datos</h2>
       <ul>
         <li><strong>Exportar JSON:</strong> Crea una copia de seguridad de todos los datos</li>
         <li><strong>Importar JSON:</strong> Restaura datos desde un archivo de backup</li>
-        <li><strong>Limpiar BD:</strong> Elimina todos los datos (requiere contraseña: <code>"mojon" sólo para no borrar por descuido.</code>)</li>
+        <li><strong>Limpiar BD:</strong> Elimina todos los datos (requiere contraseña: <code>mojon</code>)</li>
       </ul>
       <div class="ejemplo">
         <div class="ejemplo-titulo">⚠️ ADVERTENCIA</div>
@@ -563,41 +539,34 @@
       </div>
     </div>
 
-    <!-- 8. Ejemplos prácticos -->
     <div class="seccion" id="ejemplos">
       <h2>8. 🎯 Ejemplos prácticos</h2>
       
       <h3>Ejemplo 1: Partida con 4 jugadores</h3>
       <div class="ejemplo">
         <div class="ejemplo-titulo">Mano 1</div>
-        <p>Cierre: Juan | Perdedor: María | Tantos: 15 → 1 letra<br>
-        <strong>Resultado:</strong> María tiene "M"</p>
+        <p>Cierre: Juan | Perdedor: María | Tantos: 15 → 1 letra<br><strong>Resultado:</strong> María tiene "M"</p>
       </div>
       <div class="ejemplo">
         <div class="ejemplo-titulo">Mano 2</div>
-        <p>Cierre: Pedro | Perdedor: Ana | Tantos: 30 → 2 letras<br>
-        <strong>Resultado:</strong> Ana tiene "MO"</p>
+        <p>Cierre: Pedro | Perdedor: Ana | Tantos: 30 → 2 letras<br><strong>Resultado:</strong> Ana tiene "MO"</p>
       </div>
       <div class="ejemplo">
         <div class="ejemplo-titulo">Mano 3</div>
-        <p>Cierre: María | Perdedor: Juan | Tantos: 8 → 1 letra<br>
-        <strong>Resultado:</strong> Juan tiene "M"</p>
+        <p>Cierre: María | Perdedor: Juan | Tantos: 8 → 1 letra<br><strong>Resultado:</strong> Juan tiene "M"</p>
       </div>
       <div class="ejemplo">
         <div class="ejemplo-titulo">Mano 4 - PEGUE</div>
-        <p>Pegue: Ana | Perdedor: María | Tantos: 45 → 2 letras<br>
-        <strong>Resultado:</strong> María tenía "M" → "MOJ" (M+O+J)</p>
+        <p>Pegue: Ana | Perdedor: María | Tantos: 45 → 2 letras<br><strong>Resultado:</strong> María tenía "M" → "MOJ" (M+O+J)</p>
       </div>
 
       <h3>Ejemplo 2: Múltiples perdedores</h3>
       <div class="ejemplo">
         <div class="ejemplo-titulo">Empate en tantos</div>
-        <p>Cierre: Pedro | Perdedores: Juan y María | Tantos: 85 → 4 letras<br>
-        <strong>Resultado:</strong> Juan recibe 4 letras, María recibe 4 letras</p>
+        <p>Cierre: Pedro | Perdedores: Juan y María | Tantos: 85 → 4 letras<br><strong>Resultado:</strong> Juan recibe 4 letras, María recibe 4 letras</p>
       </div>
     </div>
 
-    <!-- 9. Preguntas frecuentes -->
     <div class="seccion" id="faq">
       <h2>9. ❓ Preguntas frecuentes (FAQ)</h2>
       
@@ -637,53 +606,36 @@
       </div>
     </div>
 
-    <!-- Botón ir al inicio (dentro del contenido) -->
     <div style="text-align: center;">
-      <button class="ir-inicio" onclick="irInicio()">
-        🔝 Ir al inicio del manual
-      </button>
+      <button class="ir-inicio" onclick="irInicio()">🔝 Ir al inicio del manual</button>
     </div>
 
-    <!-- 10. Créditos -->
     <div class="creditos" id="creditos">
       <h3>👨‍💻 Desarrollador</h3>
       <p><strong>Ricardo Castillo (Richard)</strong></p>
       <p>📧 <a href="mailto:3sayricardo@gmail.com">3sayricardo@gmail.com</a></p>
       <p>📱 WhatsApp: <a href="https://wa.me/5355031725">+53 55031725</a></p>
       <p>📅 Versión 1.0.0 - Junio/2026</p>
-      <p style="margin-top: 12px; font-size: 0.8rem;">✨ Desarrollado con ❤️ para la comunidad de dominó y en especial para Jennellys ✨</p>
+      <p style="margin-top: 12px;">✨ Desarrollado con ❤️ para la comunidad de dominó de 20 y 45 en Gerona y en especial para Jennellys y Sisy ✨</p>
     </div>
 
-    <!-- Botones inferiores -->
     <div class="botones-inferiores">
-      <button class="ir-inicio" style="margin:0;" onclick="irInicio()">
-        🔝 Ir al inicio
-      </button>
-      <button class="btn-cerrar-inferior" onclick="cerrarManual()">
-        ✖️ Cerrar manual
-      </button>
+      <button class="ir-inicio" style="margin:0;" onclick="irInicio()">🔝 Ir al inicio</button>
+      <button class="btn-cerrar-inferior" onclick="cerrarManual()">✖️ Cerrar manual</button>
     </div>
   </div>
 
   <script>
-    // Función para cerrar la ventana/pestaña del manual
     function cerrarManual() {
       window.close();
     }
 
-    // Función para ir al inicio del manual
     function irInicio() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Cerrar con tecla Escape
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        cerrarManual();
-      }
+      if (e.key === 'Escape') cerrarManual();
     });
   </script>
 </body>
