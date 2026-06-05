@@ -1,0 +1,755 @@
+/* ========== RESET Y BASE ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background-color: #A0522D;
+  padding: 10px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-container {
+  max-width: 550px;
+  width: 100%;
+  margin: 0 auto;
+  background: rgba(255, 248, 235, 0.95);
+  border-radius: 28px;
+  padding: 14px 16px 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== HEADER ========== */
+header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+header h1 {
+  font-size: 1.7rem;
+  color: #3b2a1f;
+  letter-spacing: -0.5px;
+}
+.sub {
+  font-size: 0.72rem;
+  color: #7a5a3a;
+}
+
+/* ========== CARDS ========== */
+.card {
+  background: #fffaf2;
+  border-radius: 22px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.card-header h2 {
+  font-size: 1.25rem;
+  color: #4a2e1e;
+}
+
+/* ========== SELECTOR DE JUGADORES ========== */
+.jugador-selector {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.jugador-selector label {
+  font-size: 0.85rem;
+}
+.jugador-selector select {
+  padding: 5px 9px;
+  border-radius: 40px;
+  border: 1px solid #cfb284;
+  background: white;
+  font-size: 0.85rem;
+}
+
+/* ========== GRID DE NOMBRES ========== */
+.nombres-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+  min-height: 260px;
+}
+
+.jugador-card {
+  background: #f4e9db;
+  border-radius: 18px;
+  padding: 10px 12px;
+}
+
+.nombre-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #dbb785;
+}
+.nombre-field label {
+  font-weight: bold;
+  min-width: 78px;
+  color: #5e3a22;
+  font-size: 0.85rem;
+}
+.nombre-field input {
+  flex: 1;
+  padding: 7px 11px;
+  border-radius: 40px;
+  border: 1px solid #dbb785;
+  background: white;
+  font-size: 0.85rem;
+}
+.nombre-field input:focus {
+  outline: none;
+  border-color: #8b5a2b;
+}
+
+/* ========== PROGRESO MOJÓN ========== */
+.progreso-individual {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: #e6d5bd;
+  border-radius: 40px;
+}
+.progreso-individual span:first-child {
+  font-size: 0.78rem;
+  color: #5e3a22;
+  font-weight: bold;
+}
+.palabra-mojon {
+  background: #a5673f;
+  color: white;
+  padding: 3px 11px;
+  border-radius: 40px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+.perdidas-num {
+  background: #8b5a2b;
+  color: white;
+  padding: 2px 9px;
+  border-radius: 40px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* ========== BOTONERA ========== */
+.botonera {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+button {
+  flex: 1;
+  padding: 9px 7px;
+  border: none;
+  border-radius: 40px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.1s;
+  background: #c48a5c;
+  color: white;
+}
+.btn-primary {
+  background: #8b5a2b;
+}
+.btn-secondary {
+  background: #b47c44;
+}
+.btn-cancel {
+  background: #9c4d2e;
+}
+.btn-cancel:hover:not(:disabled) {
+  background: #7a3a21;
+}
+.btn-danger {
+  background: #9c4d2e;
+}
+.btn-danger:hover {
+  background: #7a3a21;
+}
+button:hover:not(:disabled) {
+  transform: scale(0.98);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== FOOTER RANGOS ========== */
+.rangos {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #6f4f2e;
+  background: #f0e2cf;
+  border-radius: 35px;
+  padding: 6px 10px;
+  margin-top: 6px;
+}
+
+/* ========== MODALES GENERALES ========== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+.modal-content {
+  background: #fff8ef;
+  border-radius: 28px;
+  padding: 18px;
+  width: 90%;
+  max-width: 450px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-large {
+  max-width: 500px;
+}
+.modal-xl {
+  max-width: 750px;
+  max-height: 90vh;
+}
+
+/* ========== MODAL ANOTACIÓN ========== */
+.separador-modal {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4b896, transparent);
+  margin: 12px 0 16px 0;
+}
+
+.form-group-pegue {
+  margin-bottom: 20px;
+  text-align: center;
+  background: #f0e6d8;
+  border-radius: 60px;
+  padding: 12px 16px;
+  border: 1px solid #d4b896;
+}
+
+.checkbox-label-pegue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4a2e1e;
+}
+
+.checkbox-label-pegue input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.checkbox-label-pegue:hover {
+  color: #8b5a2b;
+  transform: scale(1.02);
+  transition: 0.1s;
+}
+
+/* ETIQUETAS DEL MODAL ANOTACIÓN - TAMAÑO MÁS GRANDE */
+.form-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #4a2e1e;
+}
+
+/* Etiqueta específica para Tantos acumulados (horizontal group) */
+.horizontal-group label {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #4a2e1e;
+}
+
+/* ========== MODAL MENSAJE INFORMATIVO ========== */
+.modal-content-mensaje {
+  background: linear-gradient(135deg, #fff8ef 0%, #f5e6d3 100%);
+  border-radius: 32px;
+  padding: 28px 24px;
+  width: 85%;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  border: 2px solid #d4a373;
+}
+.mensaje-icon {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+}
+.mensaje-texto {
+  font-size: 1.1rem;
+  color: #4a2e1e;
+  margin: 16px 0;
+  line-height: 1.4;
+}
+
+/* ========== MODAL CONFIRMACIÓN ========== */
+.modal-content-confirmacion {
+  background: linear-gradient(135deg, #fff8ef 0%, #f5e6d3 100%);
+  border-radius: 32px;
+  padding: 28px 24px;
+  width: 85%;
+  max-width: 340px;
+  text-align: center;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  border: 2px solid #d4a373;
+}
+.confirmacion-icon {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+}
+.confirmacion-texto {
+  font-size: 1rem;
+  color: #4a2e1e;
+  margin: 12px 0 20px;
+}
+.confirmacion-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.confirmacion-buttons button {
+  flex: 1;
+  max-width: 120px;
+}
+
+/* ========== MODAL FINAL (MOJÓN) ========== */
+.modal-content-final {
+  background: linear-gradient(135deg, #8b5a2b 0%, #5c3a1a 100%);
+  border-radius: 48px;
+  padding: 32px 24px;
+  width: 85%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  animation: modalEntrar 0.3s ease-out;
+}
+@keyframes modalEntrar {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.mojon-icon {
+  font-size: 5rem;
+  animation: bounce 0.5s ease;
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+.mojon-title {
+  font-size: 2.5rem;
+  color: #ffd966;
+  text-shadow: 3px 3px 0 #5c3a1a;
+  margin: 12px 0;
+  letter-spacing: 4px;
+}
+.mojon-mensaje {
+  font-size: 1.2rem;
+  color: #fff8ef;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 60px;
+  margin: 16px 0;
+  font-weight: bold;
+}
+.btn-final {
+  background: #ffd966;
+  color: #5c3a1a;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: 0.1s;
+  width: auto;
+  min-width: 120px;
+}
+.btn-final:hover {
+  background: #ffed9e;
+  transform: scale(1.02);
+}
+
+/* ========== MODAL HEADER ========== */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.close-btn {
+  background: none;
+  font-size: 28px;
+  color: #8b5a2b;
+  padding: 0;
+  width: 32px;
+  cursor: pointer;
+}
+.close-btn:hover {
+  opacity: 0.7;
+}
+
+/* ========== FORMULARIOS EN MODALES ========== */
+.opciones-lista.radio-group,
+.opciones-lista.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 4px;
+  justify-content: center;
+}
+
+.opciones-lista.radio-group label,
+.opciones-lista.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0e2cf;
+  padding: 6px 16px;
+  border-radius: 40px;
+  font-weight: normal;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.opciones-lista.radio-group label:hover,
+.opciones-lista.checkbox-group label:hover {
+  background: #e6d5bd;
+}
+
+.opciones-lista input[type="radio"],
+.opciones-lista input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.divider {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid #d4b896;
+}
+
+.horizontal-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 20px;
+  flex-wrap: wrap;
+}
+.horizontal-group label {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+.small-input {
+  width: 120px;
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+input,
+select {
+  padding: 8px 11px;
+  border-radius: 40px;
+  border: 1px solid #cfb284;
+  width: 100%;
+  font-size: 0.85rem;
+  background: white;
+}
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #8b5a2b;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.btn-sec {
+  background: #b48b5a;
+}
+
+/* ========== IMPORT/EXPORT ========== */
+.import-export-buttons {
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+}
+.import-export-buttons button {
+  flex: 1;
+}
+
+/* ========== TABS ESTADÍSTICAS ========== */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tab-btn {
+  flex: 1;
+  background: #dccfba;
+  color: #4a2e1e;
+  font-size: 0.8rem;
+  padding: 7px 5px;
+}
+.tab-btn.active {
+  background: #8b5a2b;
+  color: white;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.tab-content h3 {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: #4a2e1e;
+}
+
+/* ========== TABLAS ESTADÍSTICAS ========== */
+.stats-table-container {
+  overflow-x: auto;
+  margin: 10px 0;
+}
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.stats-table th,
+.stats-table td {
+  border: 1px solid #ddc7a8;
+  padding: 8px 6px;
+  text-align: center;
+}
+.stats-table th {
+  background: #8b5a2b;
+  color: white;
+  font-weight: bold;
+}
+.stats-table tr:nth-child(even) {
+  background: #f5eddf;
+}
+
+/* ========== GRUPOS DE FECHA ========== */
+.fecha-grupo {
+  background: #dbbc91;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  border-radius: 40px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #2d1f12;
+}
+.fecha-grupo:first-of-type {
+  margin-top: 0;
+}
+
+/* ========== DETALLE DEL JUGADOR ========== */
+.detalle-jugador {
+  background: #f4e9db;
+  border-radius: 24px;
+  padding: 16px;
+  margin-top: 12px;
+}
+.detalle-header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #d4b896;
+}
+.detalle-nombre {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #4a2e1e;
+  background: #e6d5bd;
+  padding: 6px 20px;
+  border-radius: 40px;
+  display: inline-block;
+}
+.detalle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.detalle-item {
+  background: #fff8ef;
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.detalle-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #7a5a3a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.detalle-valor {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #4a2e1e;
+}
+.detalle-sub {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #8b5a2b;
+}
+
+/* ========== MODAL DE AYUDA ========== */
+.ayuda-contenido {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.ayuda-contenido h3 {
+  background: #e6d5bd;
+  padding: 8px 12px;
+  border-radius: 40px;
+  margin: 16px 0 8px;
+  font-size: 1rem;
+  color: #4a2e1e;
+}
+.ayuda-contenido ul,
+.ayuda-contenido ol {
+  margin-left: 20px;
+  margin-bottom: 12px;
+}
+.ayuda-contenido li {
+  margin: 6px 0;
+  color: #5e3a22;
+}
+.creditos {
+  background: #f0e2cf;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  margin-top: 16px;
+}
+.creditos p {
+  margin: 4px 0;
+  color: #4a2e1e;
+}
+
+/* ========== UTILIDADES ========== */
+hr {
+  margin: 12px 0;
+  border: none;
+  border-top: 1px solid #ddc7a8;
+}
+
+/* ========== RESPONSIVE (MÓVIL) ========== */
+@media (max-width: 480px) {
+  .detalle-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .detalle-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 10px 14px;
+  }
+  
+  .detalle-label {
+    margin-bottom: 0;
+    font-size: 0.75rem;
+  }
+  
+  .detalle-valor {
+    font-size: 1.1rem;
+  }
+  
+  .stats-table {
+    font-size: 0.7rem;
+  }
+  
+  .stats-table th,
+  .stats-table td {
+    padding: 5px 3px;
+  }
+  
+  .modal-xl {
+    max-width: 95%;
+    padding: 14px;
+  }
+  
+  .form-group-pegue {
+    padding: 10px 12px;
+  }
+  
+  .checkbox-label-pegue {
+    font-size: 0.95rem;
+  }
+  
+  /* Ajuste de etiquetas en móvil */
+  .form-group label {
+    font-size: 0.9rem;
+  }
+  
+  .horizontal-group label {
+    font-size: 0.9rem;
+  }
+}

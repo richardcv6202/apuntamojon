@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Manual de Usuario - ApuntaMOJÓN</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background-color: #A0522D;
+      padding: 16px;
+      min-height: 100vh;
+    }
+
+    .manual-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff8ef;
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    /* Botón cerrar superior */
+    .btn-cerrar-superior {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #9c4d2e;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 8px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+
+    .btn-cerrar-superior:hover {
+      background: #7a3a21;
+      transform: scale(1.02);
+    }
+
+    /* Header */
+    .manual-header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #d4b896;
+    }
+
+    .manual-header h1 {
+      font-size: 1.8rem;
+      color: #3b2a1f;
+      margin-bottom: 8px;
+    }
+
+    .manual-header .sub {
+      color: #7a5a3a;
+      font-size: 0.85rem;
+    }
+
+    .version {
+      display: inline-block;
+      background: #e6d5bd;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      color: #5e3a22;
+      margin-top: 8px;
+    }
+
+    /* Índice */
+    .indice {
+      background: #f4e9db;
+      border-radius: 20px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+
+    .indice h2 {
+      font-size: 1.2rem;
+      color: #4a2e1e;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .indice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+    }
+
+    .indice a {
+      color: #8b5a2b;
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: block;
+      padding: 6px 0;
+      border-bottom: 1px dashed #d4b896;
+      transition: 0.1s;
+    }
+
+    .indice a:hover {
+      color: #5c3a1a;
+      padding-left: 6px;
+    }
+
+    /* Secciones */
+    .seccion {
+      margin-bottom: 32px;
+      scroll-margin-top: 20px;
+    }
+
+    .seccion h2 {
+      background: #e6d5bd;
+      padding: 10px 16px;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      color: #4a2e1e;
+      margin-bottom: 16px;
+    }
+
+    .seccion h3 {
+      font-size: 1rem;
+      color: #5e3a22;
+      margin: 16px 0 8px;
+      padding-left: 12px;
+      border-left: 3px solid #8b5a2b;
+    }
+
+    .seccion p {
+      color: #4a3a2a;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .seccion ul, .seccion ol {
+      margin: 12px 0 12px 28px;
+      color: #4a3a2a;
+    }
+
+    .seccion li {
+      margin: 6px 0;
+    }
+
+    /* Tablas */
+    .tabla {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      border: 1px solid #ddc7a8;
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #8b5a2b;
+      color: white;
+    }
+
+    td {
+      background: #fff8ef;
+    }
+
+    /* Tarjetas de ejemplo */
+    .ejemplo {
+      background: #f4e9db;
+      border-radius: 20px;
+      padding: 16px;
+      margin: 16px 0;
+      font-family: monospace;
+      font-size: 0.85rem;
+      border-left: 4px solid #8b5a2b;
+    }
+
+    .ejemplo-titulo {
+      font-weight: bold;
+      color: #8b5a2b;
+      margin-bottom: 8px;
+    }
+
+    /* Grid de estadísticas */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .stat-card {
+      background: #f4e9db;
+      border-radius: 16px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-card .label {
+      font-size: 0.7rem;
+      color: #7a5a3a;
+      text-transform: uppercase;
+    }
+
+    .stat-card .value {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #4a2e1e;
+    }
+
+    /* FAQ */
+    .faq-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e6d5bd;
+      padding-bottom: 12px;
+    }
+
+    .faq-pregunta {
+      font-weight: bold;
+      color: #8b5a2b;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .faq-respuesta {
+      color: #4a3a2a;
+      padding-left: 28px;
+    }
+
+    /* Botón ir al inicio */
+    .ir-inicio {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #8b5a2b;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.1s;
+      margin: 16px 0;
+      font-size: 0.85rem;
+    }
+
+    .ir-inicio:hover {
+      background: #5c3a1a;
+      transform: scale(1.02);
+    }
+
+    /* Botón cerrar inferior */
+    .btn-cerrar-inferior {
+      background: #9c4d2e;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 12px 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      width: auto;
+    }
+
+    .btn-cerrar-inferior:hover {
+      background: #7a3a21;
+      transform: scale(1.02);
+    }
+
+    /* Contenedor de botones inferiores */
+    .botones-inferiores {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 2px solid #d4b896;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Créditos */
+    .creditos {
+      background: linear-gradient(135deg, #8b5a2b 0%, #5c3a1a 100%);
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 32px;
+      color: #fff8ef;
+    }
+
+    .creditos h3 {
+      color: #ffd966;
+      margin-bottom: 12px;
+    }
+
+    .creditos p {
+      margin: 6px 0;
+      color: #f0e2cf;
+    }
+
+    .creditos a {
+      color: #ffd966;
+      text-decoration: none;
+    }
+
+    .creditos a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .manual-container {
+        padding: 16px;
+      }
+      
+      .indice-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn-cerrar-superior {
+        position: static;
+        margin-bottom: 16px;
+        display: inline-flex;
+        justify-content: center;
+      }
+      
+      .manual-header {
+        margin-top: 0;
+      }
+      
+      .botones-inferiores {
+        flex-direction: column;
+      }
+      
+      .botones-inferiores button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="manual-container">
+    <!-- Botón cerrar superior -->
+    <button class="btn-cerrar-superior" onclick="cerrarManual()">
+      ✖️ Cerrar manual
+    </button>
+
+    <!-- Header -->
+    <div class="manual-header">
+      <h1>📖 MANUAL DE USUARIO</h1>
+      <p class="sub">ApuntaMOJÓN - Control de partidas de dominó</p>
+      <span class="version">Versión 1.0.0 - 2026</span>
+    </div>
+
+    <!-- Índice -->
+    <div class="indice">
+      <h2>📑 Índice</h2>
+      <div class="indice-grid">
+        <a href="#introduccion">1. Introducción</a>
+        <a href="#instalacion">2. Instalación</a>
+        <a href="#primeros-pasos">3. Primeros pasos</a>
+        <a href="#reglas">4. Reglas del juego</a>
+        <a href="#uso">5. Uso de la app</a>
+        <a href="#estadisticas">6. Estadísticas</a>
+        <a href="#gestion">7. Gestión de datos</a>
+        <a href="#ejemplos">8. Ejemplos prácticos</a>
+        <a href="#faq">9. Preguntas frecuentes</a>
+        <a href="#creditos">10. Créditos</a>
+      </div>
+    </div>
+
+    <!-- 1. Introducción -->
+    <div class="seccion" id="introduccion">
+      <h2>1. 📌 Introducción</h2>
+      <p><strong>ApuntaMOJÓN</strong> es una aplicación diseñada para controlar partidas de dominó en la variante donde el perdedor es quien completa la palabra <strong>MOJÓN</strong>. La app permite registrar manos, asignar letras según los tantos acumulados, y mantener estadísticas detalladas de todos los jugadores.</p>
+      <p>✓ Funciona sin conexión a internet</p>
+      <p>✓ Se puede instalar como app en el móvil</p>
+      <p>✓ Todos los datos se guardan localmente</p>
+    </div>
+
+    <!-- 2. Instalación -->
+    <div class="seccion" id="instalacion">
+      <h2>2. 📱 Instalación</h2>
+      <h3>Android (Chrome)</h3>
+      <ol>
+        <li>Abre la URL de ApuntaMOJÓN en Chrome</li>
+        <li>Toca el botón de menú (tres puntos)</li>
+        <li>Selecciona "Añadir a pantalla de inicio"</li>
+        <li>Confirma el nombre y toca "Añadir"</li>
+      </ol>
+      <h3>iOS (Safari)</h3>
+      <ol>
+        <li>Abre la URL en Safari</li>
+        <li>Toca el botón "Compartir"</li>
+        <li>Selecciona "Añadir a pantalla de inicio"</li>
+        <li>Confirma y toca "Añadir"</li>
+      </ol>
+    </div>
+
+    <!-- 3. Primeros pasos -->
+    <div class="seccion" id="primeros-pasos">
+      <h2>3. 🎮 Primeros pasos</h2>
+      <p>Al abrir la app, verás la <strong>Mesa de juego</strong> con los siguientes elementos:</p>
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">🎲 Mesa de juego</div>
+        <pre>┌───────────────────────────┐
+│ Jugador 1: [Juan      ]        │
+│ 📜 Progreso: [⚪] [0/6]        │
+├───────────────────────────┤
+│ [🀄 Iniciar] [📝 Anotación]    │
+│ [📊 Stats] [💾 Import/Export]  │
+└───────────────────────────┘</pre>
+      </div>
+      <p><strong>Botones principales:</strong></p>
+      <ul>
+        <li><strong>🀄 Iniciar partida</strong> - Comienza una nueva partida</li>
+        <li><strong>❌ Cancelar partida</strong> - Cancela la partida actual</li>
+        <li><strong>📝 Anotación</strong> - Registra una mano</li>
+        <li><strong>📊 Estadísticas</strong> - Muestra datos y rankings</li>
+        <li><strong>💾 Import/Export</strong> - Gestiona copias de seguridad</li>
+        <li><strong>❓ Ayuda</strong> - Abre este manual</li>
+      </ul>
+    </div>
+
+    <!-- 4. Reglas del juego -->
+    <div class="seccion" id="reglas">
+      <h2>4. 📏 Reglas del juego</h2>
+      <h3>Escala de tantos a letras</h3>
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr><th>Tantos acumulados</th><th>Letras que se añaden</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Menos de 26 puntos</td><td>1 letra</td></tr>
+            <tr><td>26 - 50 puntos</td><td>2 letras</td></tr>
+            <tr><td>51 - 75 puntos</td><td>3 letras</td></tr>
+            <tr><td>76 - 100 puntos</td><td>4 letras</td></tr>
+            <tr><td>101 - 125 puntos</td><td>5 letras</td></tr>
+            <tr><td>126 puntos o más</td><td>6 letras (MOJÓN completo)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Formación de la palabra MOJÓN</h3>
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr><th>Pérdidas</th><th>Palabra</th><th>Acción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><strong>M</strong></td><td>Se añade M</td></tr>
+            <tr><td>2</td><td><strong>MO</strong></td><td>Se añade O</td></tr>
+            <tr><td>3</td><td><strong>MOJ</strong></td><td>Se añade J</td></tr>
+            <tr><td>4</td><td><strong>MOJO</strong></td><td>Se añade O</td></tr>
+            <tr><td>5</td><td><strong>MOJÓ</strong></td><td>La O se convierte en Ó</td></tr>
+            <tr><td>6</td><td><strong>MOJÓN</strong></td><td>Se añade N → <strong>PIERDE</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Tipos de manos</h3>
+      <ul>
+        <li><strong>Cierre:</strong> Un jugador cierra el juego → el que cierra aún puede ser perdedor</li>
+        <li><strong>Pegue:</strong> Un jugador se queda sin fichas → el que se pega no puede ser perdedor</li>
+      </ul>
+    </div>
+
+    <!-- 5. Uso de la app -->
+    <div class="seccion" id="uso">
+      <h2>5. 📝 Uso de la aplicación</h2>
+      <h3>Cómo anotar una mano</h3>
+      <ol>
+        <li>Presiona <strong>"Anotación"</strong></li>
+        <li>Marca <strong>"Un jugador se pegó"</strong> si aplica</li>
+        <li>Selecciona quién cerró o se pegó</li>
+        <li>Selecciona el/los perdedores</li>
+        <li>Ingresa los tantos acumulados</li>
+        <li>Presiona <strong>"Aceptar"</strong></li>
+      </ol>
+      
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">💡 Ejemplo de anotación</div>
+        <pre>📝 Anotar mano
+☐ 🎯 Un jugador se pegó
+🏆 ¿Quién cerró/pegó? (◉ Juan) (⚫ María)
+💀 Perdedor(es): ☑ Juan  ☐ María
+🔢 Tantos: [85]</pre>
+      </div>
+    </div>
+
+    <!-- 6. Estadísticas -->
+    <div class="seccion" id="estadisticas">
+      <h2>6. 📊 Estadísticas</h2>
+      <h3>Significado de las columnas</h3>
+      <ul>
+        <li><strong>+Gorda:</strong> Máximo de tantos con que perdió, el conteo más gordo con que ha perdido</li>
+        <li><strong>% Mojón:</strong> Porcentaje de partidas perdidas</li>
+        <li><strong>Mojones:</strong> Total de veces que completó MOJÓN</li>
+        <li><strong>Cierres:</strong> Veces que cerró una mano</li>
+        <li><strong>Pegues:</strong> Veces que se pegó</li>
+      </ul>
+
+      <h3>Ranking global</h3>
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr><th>Jugador</th><th>Partidas</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Juan</td><td>12</td><td>3</td><td>25%</td><td>128</td></tr>
+            <tr><td>María</td><td>10</td><td>1</td><td>10%</td><td>95</td></tr>
+            <tr><td>Pedro</td><td>8</td><td>1</td><td>12.5%</td><td>88</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Orden:</strong> Descendente por Mojones (los más "malos" arriba). En caso de empate por mojones, por +Gorda.</p>
+    </div>
+
+    <!-- 7. Gestión de datos -->
+    <div class="seccion" id="gestion">
+      <h2>7. 💾 Gestión de datos</h2>
+      <ul>
+        <li><strong>Exportar JSON:</strong> Crea una copia de seguridad de todos los datos</li>
+        <li><strong>Importar JSON:</strong> Restaura datos desde un archivo de backup</li>
+        <li><strong>Limpiar BD:</strong> Elimina todos los datos (requiere contraseña: <code>"mojon" sólo para no borrar por descuido.</code>)</li>
+      </ul>
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">⚠️ ADVERTENCIA</div>
+        <p>La limpieza de la base de datos es irreversible. Asegúrate de tener una copia de seguridad antes de realizarla.</p>
+      </div>
+    </div>
+
+    <!-- 8. Ejemplos prácticos -->
+    <div class="seccion" id="ejemplos">
+      <h2>8. 🎯 Ejemplos prácticos</h2>
+      
+      <h3>Ejemplo 1: Partida con 4 jugadores</h3>
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">Mano 1</div>
+        <p>Cierre: Juan | Perdedor: María | Tantos: 15 → 1 letra<br>
+        <strong>Resultado:</strong> María tiene "M"</p>
+      </div>
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">Mano 2</div>
+        <p>Cierre: Pedro | Perdedor: Ana | Tantos: 30 → 2 letras<br>
+        <strong>Resultado:</strong> Ana tiene "MO"</p>
+      </div>
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">Mano 3</div>
+        <p>Cierre: María | Perdedor: Juan | Tantos: 8 → 1 letra<br>
+        <strong>Resultado:</strong> Juan tiene "M"</p>
+      </div>
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">Mano 4 - PEGUE</div>
+        <p>Pegue: Ana | Perdedor: María | Tantos: 45 → 2 letras<br>
+        <strong>Resultado:</strong> María tenía "M" → "MOJ" (M+O+J)</p>
+      </div>
+
+      <h3>Ejemplo 2: Múltiples perdedores</h3>
+      <div class="ejemplo">
+        <div class="ejemplo-titulo">Empate en tantos</div>
+        <p>Cierre: Pedro | Perdedores: Juan y María | Tantos: 85 → 4 letras<br>
+        <strong>Resultado:</strong> Juan recibe 4 letras, María recibe 4 letras</p>
+      </div>
+    </div>
+
+    <!-- 9. Preguntas frecuentes -->
+    <div class="seccion" id="faq">
+      <h2>9. ❓ Preguntas frecuentes (FAQ)</h2>
+      
+      <div class="faq-item">
+        <div class="faq-pregunta">❓ ¿Puedo jugar sin conexión a internet?</div>
+        <div class="faq-respuesta">Sí. ApuntaMOJÓN funciona completamente offline una vez instalada.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-pregunta">❓ ¿Cómo instalo la app en mi móvil?</div>
+        <div class="faq-respuesta">Android: Chrome → "Añadir a pantalla de inicio". iOS: Safari → Compartir → "Añadir a pantalla de inicio".</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-pregunta">❓ ¿Qué significa "+Gorda"?</div>
+        <div class="faq-respuesta">Es el máximo de tantos con el que un jugador ha perdido una mano.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-pregunta">❓ ¿Qué pasa si cierro la app a mitad de partida?</div>
+        <div class="faq-respuesta">La partida se guarda automáticamente. Al volver a abrir, continuarás donde la dejaste.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-pregunta">❓ ¿Puedo recuperar datos eliminados?</div>
+        <div class="faq-respuesta">Solo si hiciste una copia de seguridad previa con "Exportar JSON".</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-pregunta">❓ ¿Cuál es la contraseña para limpiar la base de datos?</div>
+        <div class="faq-respuesta">La contraseña es <code>mojon</code> (minúscula, sin acento).</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-pregunta">❓ ¿Puedo jugar con más de 4 jugadores?</div>
+        <div class="faq-respuesta">Actualmente el límite es 4 jugadores para mantener la interfaz limpia.</div>
+      </div>
+    </div>
+
+    <!-- Botón ir al inicio (dentro del contenido) -->
+    <div style="text-align: center;">
+      <button class="ir-inicio" onclick="irInicio()">
+        🔝 Ir al inicio del manual
+      </button>
+    </div>
+
+    <!-- 10. Créditos -->
+    <div class="creditos" id="creditos">
+      <h3>👨‍💻 Desarrollador</h3>
+      <p><strong>Ricardo Castillo (Richard)</strong></p>
+      <p>📧 <a href="mailto:3sayricardo@gmail.com">3sayricardo@gmail.com</a></p>
+      <p>📱 WhatsApp: <a href="https://wa.me/5355031725">+53 55031725</a></p>
+      <p>📅 Versión 1.0.0 - Junio/2026</p>
+      <p style="margin-top: 12px; font-size: 0.8rem;">✨ Desarrollado con ❤️ para la comunidad de dominó y en especial para Jennellys ✨</p>
+    </div>
+
+    <!-- Botones inferiores -->
+    <div class="botones-inferiores">
+      <button class="ir-inicio" style="margin:0;" onclick="irInicio()">
+        🔝 Ir al inicio
+      </button>
+      <button class="btn-cerrar-inferior" onclick="cerrarManual()">
+        ✖️ Cerrar manual
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Función para cerrar la ventana/pestaña del manual
+    function cerrarManual() {
+      window.close();
+    }
+
+    // Función para ir al inicio del manual
+    function irInicio() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        cerrarManual();
+      }
+    });
+  </script>
+</body>
+</html>

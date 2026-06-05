@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ApuntaMOJÓN - Control de pérdidas en dominó</title>
+  <meta name="description" content="Aplicación para control de partidas de dominó - el perdedor forma la palabra MOJÓN">
+  <meta name="theme-color" content="#A0522D">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MOJÓN">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- CABECERA -->
+    <header>
+      <h1>💩 APUNTA MOJÓN</h1>
+      <p class="sub">Anota rápido, pierde con estilo</p>
+    </header>
+
+    <!-- MESA DE JUEGO -->
+    <div class="card" id="mesaJuego">
+      <div class="card-header">
+        <h2>🎲 Mesa de juego</h2>
+        <div class="jugador-selector">
+          <label>👥 Jugadores:</label>
+          <select id="numJugadores">
+            <option value="2">2 jugadores</option>
+            <option value="3">3 jugadores</option>
+            <option value="4" selected>4 jugadores</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Campos dinámicos de nombres -->
+      <div id="nombresJugadores" class="nombres-grid"></div>
+      
+      <!-- Botonera principal -->
+      <div class="botonera">
+        <button id="btnIniciarPartida" class="btn-primary">🀄 Iniciar partida</button>
+        <button id="btnCancelarPartida" class="btn-cancel" disabled>❌ Cancelar partida</button>
+        <button id="btnAnotacion" class="btn-secondary" disabled>📝 Anotación</button>
+        <button id="btnEstadisticas" class="btn-secondary">📊 Estadísticas</button>
+        <button id="btnImportExport" class="btn-secondary">💾 Import/Export</button>
+        <button id="btnAyuda" class="btn-secondary">❓ Ayuda</button>
+      </div>
+    </div>
+
+    <!-- FOOTER CON RANGOS -->
+    <footer class="rangos">
+      <small>📏 Rango → &lt;26=1 | 26-50=2 | 51-75=3 | 76-100=4 | 101-125=5 | ≥126=6 letras (MOJÓN)</small>
+    </footer>
+  </div>
+
+  <!-- ==================== MODALES ==================== -->
+
+  <!-- MODAL ANOTACIÓN - MODIFICADO -->
+  <div id="modalAnotacion" class="modal">
+    <div class="modal-content modal-large">
+      <h3>📝 Anotar mano</h3>
+      
+      <!-- Separador visual -->
+      <div class="separador-modal"></div>
+
+      <!-- Checkbox Un jugador se pegó - CON TAMAÑO DE LETRA MÁS GRANDE -->
+      <div class="form-group-pegue">
+        <label class="checkbox-label-pegue">
+          <input type="checkbox" id="tipoPegue"> 🎯 Un jugador se pegó
+        </label>
+      </div>
+
+      <div class="form-group" id="grupoCierre">
+        <label>🏆 ¿Quién cerró/pegó?</label>
+        <div id="listaCierre" class="opciones-lista radio-group"></div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="form-group">
+        <label>💀 Perdedor(es) (pierden letras):</label>
+        <div id="listaPerdedores" class="opciones-lista checkbox-group"></div>
+      </div>
+
+      <div class="form-group horizontal-group">
+        <label for="tantosInput">🔢 Tantos acumulados:</label>
+        <input type="number" id="tantosInput" placeholder="" step="1" class="small-input">
+      </div>
+
+      <div class="modal-buttons">
+        <button id="btnCancelarAnotacion" class="btn-sec">Cancelar</button>
+        <button id="btnAceptarAnotacion" class="btn-primary">✅ Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ESTADÍSTICAS -->
+  <div id="modalEstadisticas" class="modal">
+    <div class="modal-content modal-xl">
+      <div class="modal-header">
+        <h2>📈 Estadísticas MOJÓN</h2>
+        <button id="btnCerrarStats" class="close-btn">&times;</button>
+      </div>
+      
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="diario">📅 Diario</button>
+        <button class="tab-btn" data-tab="global">🌍 Global</button>
+        <button class="tab-btn" data-tab="detalle">🔍 Detalle jugador</button>
+      </div>
+
+      <div id="tabDiario" class="tab-content active">
+        <h3>📊 Resumen del día <span id="fechaActual"></span></h3>
+        <div id="statsDiario" class="stats-table-container"></div>
+        <h3>📆 Días anteriores</h3>
+        <div id="statsDiasAnteriores" class="stats-table-container"></div>
+      </div>
+
+      <div id="tabGlobal" class="tab-content">
+        <h3>🏆 Ranking general</h3>
+        <div id="statsGlobal" class="stats-table-container"></div>
+      </div>
+
+      <div id="tabDetalle" class="tab-content">
+        <label>Seleccionar jugador:</label>
+        <select id="selectJugadorDetalle"></select>
+        <div id="detalleJugador" class="stats-table-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL IMPORT/EXPORT -->
+  <div id="modalImportExport" class="modal">
+    <div class="modal-content">
+      <h3>💾 Gestión de datos</h3>
+      <div class="import-export-buttons">
+        <button id="btnExportar" class="btn-primary">📤 Exportar JSON</button>
+        <button id="btnImportar" class="btn-secondary">📥 Importar JSON</button>
+      </div>
+      <input type="file" id="fileImport" accept=".json" style="display:none;">
+      <hr>
+      <div class="import-export-buttons">
+        <button id="btnLimpiarBD" class="btn-danger">🗑️ Limpiar base de datos</button>
+      </div>
+      <hr>
+      <button id="btnCerrarImport" class="btn-sec">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- MODAL CONTRASEÑA -->
+  <div id="modalPassword" class="modal">
+    <div class="modal-content">
+      <h3>🔐 Confirmar acción</h3>
+      <p>Ingrese la contraseña para limpiar la base de datos:</p>
+      <input type="password" id="passwordInput" placeholder="Contraseña">
+      <div class="modal-buttons">
+        <button id="btnCancelarPassword" class="btn-sec">Cancelar</button>
+        <button id="btnConfirmarPassword" class="btn-primary">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MENSAJE INFORMATIVO -->
+  <div id="modalMensaje" class="modal">
+    <div class="modal-content-mensaje">
+      <div class="mensaje-icon" id="mensajeIcono">⚠️</div>
+      <h3 id="mensajeTitulo">Atención</h3>
+      <p id="mensajeTexto" class="mensaje-texto"></p>
+      <button id="btnCerrarMensaje" class="btn-final">Aceptar</button>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMACIÓN -->
+  <div id="modalConfirmacion" class="modal">
+    <div class="modal-content-confirmacion">
+      <div class="confirmacion-icon">❓</div>
+      <h3>¿Cancelar partida?</h3>
+      <p id="confirmacionTexto" class="confirmacion-texto">Se perderá todo el progreso de la partida actual.</p>
+      <div class="confirmacion-buttons">
+        <button id="btnConfirmarNo" class="btn-sec">No, volver</button>
+        <button id="btnConfirmarSi" class="btn-primary">Sí, cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FINAL (MOJÓN) -->
+  <div id="modalFinal" class="modal">
+    <div class="modal-content-final">
+      <div class="mojon-icon">💩</div>
+      <h2 class="mojon-title">¡MOJÓN!</h2>
+      <p id="mensajeFinal" class="mojon-mensaje"></p>
+      <button id="btnCerrarFinal" class="btn-final">Aceptar</button>
+    </div>
+  </div>
+</body>
+</html>
