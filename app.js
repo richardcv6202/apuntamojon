@@ -107,9 +107,7 @@ function actualizarProgresoUI() {
 function mostrarCamposNombres() {
   const num = parseInt(numJugadoresSelect.value);
   
-  // Verificar si ya existen los campos (para no recrearlos siempre)
   if (nombresContainer.children.length === 0) {
-    // Crear los 4 jugadores siempre
     for (let i = 1; i <= 4; i++) {
       const card = document.createElement('div');
       card.className = 'jugador-card';
@@ -129,7 +127,6 @@ function mostrarCamposNombres() {
     }
   }
   
-  // Activar/Desactivar según la cantidad seleccionada
   for (let i = 1; i <= 4; i++) {
     const input = document.getElementById(`nombreJugador${i}`);
     const card = document.getElementById(`jugadorCard-${i}`);
@@ -155,7 +152,6 @@ function obtenerNombres() {
     return null;
   }
   
-  // Solo validar los que están habilitados (hasta num)
   for (let i = 1; i <= num; i++) {
     const input = document.getElementById(`nombreJugador${i}`);
     if (!input || !input.value.trim()) {
@@ -196,7 +192,6 @@ function iniciarPartida() {
   btnIniciar.disabled = true;
   numJugadoresSelect.disabled = true;
   
-  // Deshabilitar todos los campos de nombre durante la partida
   for (let i = 1; i <= 4; i++) {
     const input = document.getElementById(`nombreJugador${i}`);
     if (input) input.disabled = true;
@@ -216,7 +211,6 @@ function cancelarPartida() {
     numJugadoresSelect.disabled = false;
     localStorage.removeItem('mojon_partidaActiva');
     
-    // Limpiar progreso visual
     for (let i = 0; i < 4; i++) {
       const prog = document.getElementById(`progreso-${i}`);
       if (prog) {
@@ -224,7 +218,6 @@ function cancelarPartida() {
       }
     }
     
-    // Reactivar campos según cantidad seleccionada
     const num = parseInt(numJugadoresSelect.value);
     for (let i = 1; i <= 4; i++) {
       const input = document.getElementById(`nombreJugador${i}`);
@@ -272,10 +265,8 @@ function cargarEstadoLocal() {
         numJugadoresSelect.value = num;
         numJugadoresSelect.disabled = true;
         
-        // Primero mostrar campos (crea los 4)
         mostrarCamposNombres();
         
-        // Luego rellenar nombres y deshabilitar según corresponda
         for (let i = 1; i <= 4; i++) {
           const input = document.getElementById(`nombreJugador${i}`);
           const card = document.getElementById(`jugadorCard-${i}`);
@@ -419,7 +410,6 @@ function finalizarPartida(perdedorNombre) {
   
   mostrarMensajeFinal(`${perdedorNombre} se ha comido un mojón 💩`);
   
-  // Reiniciar pérdidas de todos los jugadores, pero mantener nombres
   jugadores.forEach(j => {
     j.perdidas = 0;
     j.palabra = "";
@@ -508,7 +498,6 @@ function actualizarTablasEstadisticas() {
   
   document.getElementById('fechaActual').innerText = hoy;
   
-  // Tabla diaria
   const statsHoy = {};
   partidasHoy.forEach(p => {
     const perdedor = p.resultadoFinal.perdedorPartida;
@@ -530,12 +519,12 @@ function actualizarTablasEstadisticas() {
   
   let diarioHtml = '<table class="stats-table"><thead>一面<th>Jugador</th><th>Partidas</th><th>Mojones</th><th>+Gorda</th></thead><tbody>';
   rankingHoy.forEach(r => {
-    diarioHtml += `<tr><td>${r.nombre}</td><td>${r.partidas}</td><td>${r.mojones}</td><td>${r.maxTantos}</td></tr>`;
+    diarioHtml += `<tr><td>${r.nombre}</td>}&#{64}${r.partidas}${r.nombre} \n   }\n   `;
+    diarioHtml += `<tr><td>${r.partidas}</td><td>${r.mojones}</td><td>${r.maxTantos}</td></tr>`;
   });
   diarioHtml += '</tbody></table>';
   document.getElementById('statsDiario').innerHTML = diarioHtml || '<p>Sin partidas hoy</p>';
   
-  // Días anteriores
   const diasMap = {};
   bd.partidas.forEach(p => {
     if (p.fecha !== hoy) {
@@ -572,12 +561,11 @@ function actualizarTablasEstadisticas() {
           diasHtml += `<tr><td>${nom}</td><td>${data.manos}</td><td>${data.mojones}</td><td>${data.maxTantos}</td></tr>`;
         });
       
-      diasHtml += '</tbody><tr>';
+      diasHtml += '</tbody></table>';
     });
   
   document.getElementById('statsDiasAnteriores').innerHTML = diasHtml || '<p>Sin partidas anteriores</p>';
   
-  // Ranking global
   const ranking = Object.entries(bd.estadisticasJugador)
     .map(([nom, st]) => ({
       nombre: nom,
@@ -589,7 +577,7 @@ function actualizarTablasEstadisticas() {
     }))
     .sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
   
-  let globalHtml = '<table class="stats-table"><thead>一面<th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></thead><tbody>';
+  let globalHtml = '<table class="stats-table"><thead><tr><th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></tr></thead><tbody>';
   ranking.forEach(r => {
     globalHtml += `<tr>
       <td>${r.nombre}</td>
@@ -605,7 +593,6 @@ function actualizarTablasEstadisticas() {
   globalHtml += '</tbody></table>';
   document.getElementById('statsGlobal').innerHTML = globalHtml;
   
-  // Selector detalle
   const selectDetalle = document.getElementById('selectJugadorDetalle');
   if (selectDetalle) {
     selectDetalle.innerHTML = '<option value="">Seleccionar...</option>';
