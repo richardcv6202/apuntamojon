@@ -25,7 +25,6 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* ========== HEADER ========== */
 header {
   text-align: center;
   margin-bottom: 10px;
@@ -40,7 +39,6 @@ header h1 {
   color: #7a5a3a;
 }
 
-/* ========== CARDS ========== */
 .card {
   background: #fffaf2;
   border-radius: 22px;
@@ -61,7 +59,6 @@ header h1 {
   color: #4a2e1e;
 }
 
-/* ========== SELECTOR DE JUGADORES ========== */
 .jugador-selector {
   display: flex;
   gap: 6px;
@@ -78,7 +75,6 @@ header h1 {
   font-size: 0.85rem;
 }
 
-/* ========== GRID DE NOMBRES ========== */
 .nombres-grid {
   display: flex;
   flex-direction: column;
@@ -126,7 +122,6 @@ header h1 {
   cursor: not-allowed;
 }
 
-/* ========== PROGRESO MOJÓN ========== */
 .progreso-individual {
   display: flex;
   justify-content: space-between;
@@ -158,7 +153,6 @@ header h1 {
   font-weight: bold;
 }
 
-/* ========== BOTONERA ========== */
 .botonera {
   display: flex;
   flex-wrap: wrap;
@@ -203,7 +197,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* ========== FOOTER RANGOS ========== */
 .rangos {
   text-align: center;
   font-size: 0.7rem;
@@ -214,7 +207,6 @@ button:disabled {
   margin-top: 6px;
 }
 
-/* ========== MODALES GENERALES ========== */
 .modal {
   display: none;
   position: fixed;
@@ -245,7 +237,6 @@ button:disabled {
   max-height: 90vh;
 }
 
-/* ========== MODAL ANOTACIÓN ========== */
 .separador-modal {
   height: 1px;
   background: linear-gradient(90deg, transparent, #d4b896, transparent);
@@ -299,7 +290,6 @@ button:disabled {
   color: #4a2e1e;
 }
 
-/* ========== MODAL MENSAJE INFORMATIVO ========== */
 .modal-content-mensaje {
   background: linear-gradient(135deg, #fff8ef 0%, #f5e6d3 100%);
   border-radius: 32px;
@@ -321,7 +311,6 @@ button:disabled {
   line-height: 1.4;
 }
 
-/* ========== MODAL CONFIRMACIÓN ========== */
 .modal-content-confirmacion {
   background: linear-gradient(135deg, #fff8ef 0%, #f5e6d3 100%);
   border-radius: 32px;
@@ -351,7 +340,6 @@ button:disabled {
   max-width: 120px;
 }
 
-/* ========== MODAL FINAL (MOJÓN) ========== */
 .modal-content-final {
   background: linear-gradient(135deg, #8b5a2b 0%, #5c3a1a 100%);
   border-radius: 48px;
@@ -418,7 +406,6 @@ button:disabled {
   transform: scale(1.02);
 }
 
-/* ========== MODAL HEADER ========== */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -437,7 +424,6 @@ button:disabled {
   opacity: 0.7;
 }
 
-/* ========== FORMULARIOS EN MODALES ========== */
 .opciones-lista.radio-group,
 .opciones-lista.checkbox-group {
   display: flex;
@@ -527,7 +513,6 @@ select:focus {
   background: #b48b5a;
 }
 
-/* ========== IMPORT/EXPORT ========== */
 .import-export-buttons {
   display: flex;
   gap: 12px;
@@ -537,7 +522,6 @@ select:focus {
   flex: 1;
 }
 
-/* ========== TABS ESTADÍSTICAS ========== */
 .tabs {
   display: flex;
   gap: 8px;
@@ -566,7 +550,6 @@ select:focus {
   color: #4a2e1e;
 }
 
-/* ========== TABLAS ESTADÍSTICAS ========== */
 .stats-table-container {
   overflow-x: auto;
   margin: 10px 0;
@@ -591,7 +574,6 @@ select:focus {
   background: #f5eddf;
 }
 
-/* ========== GRUPOS DE FECHA ========== */
 .fecha-grupo {
   background: #dbbc91;
   margin-top: 16px;
@@ -606,7 +588,6 @@ select:focus {
   margin-top: 0;
 }
 
-/* ========== DETALLE DEL JUGADOR ========== */
 .detalle-jugador {
   background: #f4e9db;
   border-radius: 24px;
@@ -666,7 +647,6 @@ hr {
   border-top: 1px solid #ddc7a8;
 }
 
-/* Responsive */
 @media (max-width: 480px) {
   .detalle-grid {
     grid-template-columns: 1fr;
