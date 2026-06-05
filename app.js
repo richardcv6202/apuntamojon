@@ -12,6 +12,7 @@ const btnCancelar = document.getElementById('btnCancelarPartida');
 const btnAnotacion = document.getElementById('btnAnotacion');
 const btnEstadisticas = document.getElementById('btnEstadisticas');
 const btnImportExport = document.getElementById('btnImportExport');
+const btnAyuda = document.getElementById('btnAyuda');
 
 // ========== MODALES ==========
 const modalAnotacion = document.getElementById('modalAnotacion');
@@ -21,7 +22,6 @@ const modalFinal = document.getElementById('modalFinal');
 const modalMensaje = document.getElementById('modalMensaje');
 const modalConfirmacion = document.getElementById('modalConfirmacion');
 const modalPassword = document.getElementById('modalPassword');
-const modalAyuda = document.getElementById('modalAyuda');
 
 // ========== FUNCIONES DE MODALES ==========
 function mostrarMensaje(titulo, texto, icono = '⚠️') {
@@ -29,6 +29,11 @@ function mostrarMensaje(titulo, texto, icono = '⚠️') {
   document.getElementById('mensajeTexto').textContent = texto;
   document.getElementById('mensajeIcono').textContent = icono;
   modalMensaje.style.display = 'flex';
+}
+
+function mostrarMensajeFinal(mensaje) {
+  document.getElementById('mensajeFinal').innerHTML = mensaje;
+  modalFinal.style.display = 'flex';
 }
 
 function mostrarConfirmacion(texto, onConfirm) {
@@ -101,30 +106,43 @@ function actualizarProgresoUI() {
 
 function mostrarCamposNombres() {
   const num = parseInt(numJugadoresSelect.value);
-  nombresContainer.innerHTML = '';
   
-  const minHeight = 260;
-  const cardHeight = 78;
-  const gap = 10;
-  const totalHeight = (num * cardHeight) + ((num - 1) * gap);
-  const paddingBottom = Math.max(0, minHeight - totalHeight);
-  nombresContainer.style.paddingBottom = `${paddingBottom}px`;
+  // Verificar si ya existen los campos (para no recrearlos siempre)
+  if (nombresContainer.children.length === 0) {
+    // Crear los 4 jugadores siempre
+    for (let i = 1; i <= 4; i++) {
+      const card = document.createElement('div');
+      card.className = 'jugador-card';
+      card.id = `jugadorCard-${i}`;
+      card.innerHTML = `
+        <div class="nombre-field">
+          <label>Jugador ${i}:</label>
+          <input type="text" id="nombreJugador${i}" placeholder="Nombre del jugador ${i}">
+        </div>
+        <div class="progreso-individual" id="progreso-${i-1}">
+          <span>📜 Progreso:</span>
+          <span class="palabra-mojon">⚪</span>
+          <span class="perdidas-num">0/6</span>
+        </div>
+      `;
+      nombresContainer.appendChild(card);
+    }
+  }
   
-  for (let i = 1; i <= num; i++) {
-    const card = document.createElement('div');
-    card.className = 'jugador-card';
-    card.innerHTML = `
-      <div class="nombre-field">
-        <label>Jugador ${i}:</label>
-        <input type="text" id="nombreJugador${i}" placeholder="Nombre del jugador ${i}">
-      </div>
-      <div class="progreso-individual" id="progreso-${i-1}">
-        <span>📜 Progreso:</span>
-        <span class="palabra-mojon">⚪</span>
-        <span class="perdidas-num">0/6</span>
-      </div>
-    `;
-    nombresContainer.appendChild(card);
+  // Activar/Desactivar según la cantidad seleccionada
+  for (let i = 1; i <= 4; i++) {
+    const input = document.getElementById(`nombreJugador${i}`);
+    const card = document.getElementById(`jugadorCard-${i}`);
+    if (i <= num) {
+      input.disabled = false;
+      card.style.opacity = '1';
+      card.style.filter = 'none';
+    } else {
+      input.disabled = true;
+      input.value = '';
+      card.style.opacity = '0.5';
+      card.style.filter = 'grayscale(0.3)';
+    }
   }
 }
 
@@ -137,16 +155,25 @@ function obtenerNombres() {
     return null;
   }
   
+  // Solo validar los que están habilitados (hasta num)
   for (let i = 1; i <= num; i++) {
     const input = document.getElementById(`nombreJugador${i}`);
     if (!input || !input.value.trim()) {
-      mostrarMensaje('Faltan nombres', 'Debe escribir los nombres de los jugadores', '⚠️');
+      mostrarMensaje('Faltan nombres', `Debe escribir el nombre del Jugador ${i}`, '⚠️');
       return null;
     }
     nombres.push(input.value.trim());
   }
   
   return nombres;
+}
+
+function habilitarCamposNombres(habilitar) {
+  const num = parseInt(numJugadoresSelect.value);
+  for (let i = 1; i <= num; i++) {
+    const input = document.getElementById(`nombreJugador${i}`);
+    if (input) input.disabled = !habilitar;
+  }
 }
 
 function iniciarPartida() {
@@ -169,6 +196,12 @@ function iniciarPartida() {
   btnIniciar.disabled = true;
   numJugadoresSelect.disabled = true;
   
+  // Deshabilitar todos los campos de nombre durante la partida
+  for (let i = 1; i <= 4; i++) {
+    const input = document.getElementById(`nombreJugador${i}`);
+    if (input) input.disabled = true;
+  }
+  
   guardarEstadoLocal();
 }
 
@@ -183,13 +216,33 @@ function cancelarPartida() {
     numJugadoresSelect.disabled = false;
     localStorage.removeItem('mojon_partidaActiva');
     
+    // Limpiar progreso visual
     for (let i = 0; i < 4; i++) {
       const prog = document.getElementById(`progreso-${i}`);
       if (prog) {
         prog.innerHTML = `<span>📜 Progreso:</span><span class="palabra-mojon">⚪</span><span class="perdidas-num">0/6</span>`;
       }
     }
-    mostrarCamposNombres();
+    
+    // Reactivar campos según cantidad seleccionada
+    const num = parseInt(numJugadoresSelect.value);
+    for (let i = 1; i <= 4; i++) {
+      const input = document.getElementById(`nombreJugador${i}`);
+      if (input) {
+        input.value = '';
+        if (i <= num) {
+          input.disabled = false;
+        } else {
+          input.disabled = true;
+          const card = document.getElementById(`jugadorCard-${i}`);
+          if (card) {
+            card.style.opacity = '0.5';
+            card.style.filter = 'grayscale(0.3)';
+          }
+        }
+      }
+    }
+    
     mostrarMensaje('Partida cancelada', 'La partida ha sido cancelada correctamente.', '✅');
   });
 }
@@ -218,11 +271,26 @@ function cargarEstadoLocal() {
         const num = jugadores.length;
         numJugadoresSelect.value = num;
         numJugadoresSelect.disabled = true;
+        
+        // Primero mostrar campos (crea los 4)
         mostrarCamposNombres();
-        jugadores.forEach((j, idx) => {
-          const input = document.getElementById(`nombreJugador${idx+1}`);
-          if (input) input.value = j.nombre;
-        });
+        
+        // Luego rellenar nombres y deshabilitar según corresponda
+        for (let i = 1; i <= 4; i++) {
+          const input = document.getElementById(`nombreJugador${i}`);
+          const card = document.getElementById(`jugadorCard-${i}`);
+          if (i <= num) {
+            input.value = jugadores[i-1].nombre;
+            input.disabled = true;
+            card.style.opacity = '1';
+            card.style.filter = 'none';
+          } else {
+            input.value = '';
+            input.disabled = true;
+            card.style.opacity = '0.5';
+            card.style.filter = 'grayscale(0.3)';
+          }
+        }
         
         actualizarProgresoUI();
         btnAnotacion.disabled = false;
@@ -349,30 +417,20 @@ function aceptarAnotacion() {
 function finalizarPartida(perdedorNombre) {
   guardarPartidaEnBD(perdedorNombre);
   
-  const mensajeFinal = document.getElementById('mensajeFinal');
-  mensajeFinal.innerHTML = `${perdedorNombre} se ha comido un mojón 💩`;
-  modalFinal.style.display = 'flex';
+  mostrarMensajeFinal(`${perdedorNombre} se ha comido un mojón 💩`);
+  
+  // Reiniciar pérdidas de todos los jugadores, pero mantener nombres
+  jugadores.forEach(j => {
+    j.perdidas = 0;
+    j.palabra = "";
+  });
+  manosPartida = [];
+  actualizarProgresoUI();
+  guardarEstadoLocal();
 }
 
 function cerrarModalFinal() {
   modalFinal.style.display = 'none';
-  
-  partidaActiva = false;
-  jugadores = [];
-  manosPartida = [];
-  btnAnotacion.disabled = true;
-  btnCancelar.disabled = true;
-  btnIniciar.disabled = false;
-  numJugadoresSelect.disabled = false;
-  localStorage.removeItem('mojon_partidaActiva');
-  
-  for (let i = 0; i < 4; i++) {
-    const prog = document.getElementById(`progreso-${i}`);
-    if (prog) {
-      prog.innerHTML = `<span>📜 Progreso:</span><span class="palabra-mojon">⚪</span><span class="perdidas-num">0/6</span>`;
-    }
-  }
-  mostrarCamposNombres();
 }
 
 // ========== BASE DE DATOS ==========
@@ -514,7 +572,7 @@ function actualizarTablasEstadisticas() {
           diasHtml += `<tr><td>${nom}</td><td>${data.manos}</td><td>${data.mojones}</td><td>${data.maxTantos}</td></tr>`;
         });
       
-      diasHtml += '</tbody></table>';
+      diasHtml += '</tbody><tr>';
     });
   
   document.getElementById('statsDiasAnteriores').innerHTML = diasHtml || '<p>Sin partidas anteriores</p>';
@@ -526,15 +584,17 @@ function actualizarTablasEstadisticas() {
       mojones: st.vecesMojon,
       maxTantos: st.maxTantos,
       partidas: st.partidasJugadas,
-      porcentajeMojon: st.partidasJugadas > 0 ? ((st.vecesMojon / st.partidasJugadas) * 100).toFixed(1) : 0
+      porcentajeMojon: st.partidasJugadas > 0 ? ((st.vecesMojon / st.partidasJugadas) * 100).toFixed(1) : 0,
+      manosTotales: st.manosTotales || 0
     }))
     .sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
   
-  let globalHtml = '<table class="stats-table"><thead>一面<th>Jugador</th><th>Partidas</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></thead><tbody>';
+  let globalHtml = '<table class="stats-table"><thead>一面<th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></thead><tbody>';
   ranking.forEach(r => {
     globalHtml += `<tr>
       <td>${r.nombre}</td>
       <td>${r.partidas}</td>
+      <td>${r.manosTotales}</td>
       <td>${r.mojones}</td>
       <td>${r.porcentajeMojon}%</td>
       <td>${r.maxTantos}</td>
@@ -699,10 +759,9 @@ function initTabs() {
   });
 }
 
-// ========== FUNCIÓN DE AYUDA MODIFICADA ==========
-// Esta función abre el manual externo en una nueva ventana/pestaña
+// ========== AYUDA ==========
 function abrirManual() {
-  window.open('manual_apuntamojon.html', '_blank');
+  window.open('./manual_apuntamojon.html', '_blank');
 }
 
 // ========== EVENTOS ==========
@@ -721,11 +780,7 @@ btnEstadisticas.addEventListener('click', () => {
 btnImportExport.addEventListener('click', () => {
   modalImportExport.style.display = 'flex';
 });
-
-// Botón de ayuda - AHORA ABRE EL MANUAL EXTERNO
-document.getElementById('btnAyuda').onclick = () => {
-  abrirManual();
-};
+btnAyuda.addEventListener('click', abrirManual);
 
 document.getElementById('btnCerrarStats').onclick = () => modalEstadisticas.style.display = 'none';
 document.getElementById('btnAceptarAnotacion').onclick = aceptarAnotacion;
