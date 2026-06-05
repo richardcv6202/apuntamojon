@@ -84,13 +84,14 @@ header h1 {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 12px;
-  min-height: 260px;
+  min-height: 340px;
 }
 
 .jugador-card {
   background: #f4e9db;
   border-radius: 18px;
   padding: 10px 12px;
+  transition: all 0.2s ease;
 }
 
 .nombre-field {
@@ -118,6 +119,11 @@ header h1 {
 .nombre-field input:focus {
   outline: none;
   border-color: #8b5a2b;
+}
+.nombre-field input:disabled {
+  background: #e6d5bd;
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 /* ========== PROGRESO MOJÓN ========== */
@@ -279,7 +285,6 @@ button:disabled {
   transition: 0.1s;
 }
 
-/* ETIQUETAS DEL MODAL ANOTACIÓN - TAMAÑO MÁS GRANDE */
 .form-group label {
   font-weight: bold;
   display: block;
@@ -288,7 +293,6 @@ button:disabled {
   color: #4a2e1e;
 }
 
-/* Etiqueta específica para Tantos acumulados (horizontal group) */
 .horizontal-group label {
   font-size: 0.95rem;
   font-weight: bold;
@@ -656,55 +660,18 @@ select:focus {
   color: #8b5a2b;
 }
 
-/* ========== MODAL DE AYUDA ========== */
-.ayuda-contenido {
-  max-height: 60vh;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-.ayuda-contenido h3 {
-  background: #e6d5bd;
-  padding: 8px 12px;
-  border-radius: 40px;
-  margin: 16px 0 8px;
-  font-size: 1rem;
-  color: #4a2e1e;
-}
-.ayuda-contenido ul,
-.ayuda-contenido ol {
-  margin-left: 20px;
-  margin-bottom: 12px;
-}
-.ayuda-contenido li {
-  margin: 6px 0;
-  color: #5e3a22;
-}
-.creditos {
-  background: #f0e2cf;
-  border-radius: 20px;
-  padding: 16px;
-  text-align: center;
-  margin-top: 16px;
-}
-.creditos p {
-  margin: 4px 0;
-  color: #4a2e1e;
-}
-
-/* ========== UTILIDADES ========== */
 hr {
   margin: 12px 0;
   border: none;
   border-top: 1px solid #ddc7a8;
 }
 
-/* ========== RESPONSIVE (MÓVIL) ========== */
+/* Responsive */
 @media (max-width: 480px) {
   .detalle-grid {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  
   .detalle-item {
     display: flex;
     justify-content: space-between;
@@ -712,43 +679,33 @@ hr {
     text-align: left;
     padding: 10px 14px;
   }
-  
   .detalle-label {
     margin-bottom: 0;
     font-size: 0.75rem;
   }
-  
   .detalle-valor {
     font-size: 1.1rem;
   }
-  
   .stats-table {
     font-size: 0.7rem;
   }
-  
   .stats-table th,
   .stats-table td {
     padding: 5px 3px;
   }
-  
   .modal-xl {
     max-width: 95%;
     padding: 14px;
   }
-  
   .form-group-pegue {
     padding: 10px 12px;
   }
-  
   .checkbox-label-pegue {
     font-size: 0.95rem;
   }
-  
-  /* Ajuste de etiquetas en móvil */
   .form-group label {
     font-size: 0.9rem;
   }
-  
   .horizontal-group label {
     font-size: 0.9rem;
   }
