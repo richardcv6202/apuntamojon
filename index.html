@@ -18,13 +18,11 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- CABECERA -->
     <header>
       <h1>💩 APUNTA MOJÓN</h1>
       <p class="sub">Anota rápido, pierde con estilo</p>
     </header>
 
-    <!-- MESA DE JUEGO -->
     <div class="card" id="mesaJuego">
       <div class="card-header">
         <h2>🎲 Mesa de juego</h2>
@@ -38,10 +36,8 @@
         </div>
       </div>
       
-      <!-- Campos dinámicos de nombres (siempre 4) -->
       <div id="nombresJugadores" class="nombres-grid"></div>
       
-      <!-- BOTONERA CON ORDEN CORREGIDO: Iniciar, Anotación, Estadísticas, Import/Export, Cancelar, Ayuda -->
       <div class="botonera">
         <button id="btnIniciarPartida" class="btn-primary">🀄 Iniciar partida</button>
         <button id="btnAnotacion" class="btn-secondary" disabled>📝 Anotación</button>
@@ -52,44 +48,34 @@
       </div>
     </div>
 
-    <!-- FOOTER CON RANGOS -->
     <footer class="rangos">
       <small>📏 Rango → &lt;26=1 | 26-50=2 | 51-75=3 | 76-100=4 | 101-125=5 | ≥126=6 letras (MOJÓN)</small>
     </footer>
   </div>
 
-  <!-- ==================== MODALES ==================== -->
-
   <!-- MODAL ANOTACIÓN -->
   <div id="modalAnotacion" class="modal">
     <div class="modal-content modal-large">
       <h3>📝 Anotar mano</h3>
-      
       <div class="separador-modal"></div>
-
       <div class="form-group-pegue">
         <label class="checkbox-label-pegue">
           <input type="checkbox" id="tipoPegue"> 🎯 Un jugador se pegó
         </label>
       </div>
-
       <div class="form-group" id="grupoCierre">
         <label>🏆 ¿Quién cerró/pegó?</label>
         <div id="listaCierre" class="opciones-lista radio-group"></div>
       </div>
-
       <hr class="divider">
-
       <div class="form-group">
         <label>💀 Perdedor(es) (pierden letras):</label>
         <div id="listaPerdedores" class="opciones-lista checkbox-group"></div>
       </div>
-
       <div class="form-group horizontal-group">
         <label for="tantosInput">🔢 Tantos acumulados:</label>
         <input type="number" id="tantosInput" placeholder="" step="1" class="small-input">
       </div>
-
       <div class="modal-buttons">
         <button id="btnCancelarAnotacion" class="btn-sec">Cancelar</button>
         <button id="btnAceptarAnotacion" class="btn-primary">✅ Aceptar</button>
@@ -104,25 +90,21 @@
         <h2>📈 Estadísticas MOJÓN</h2>
         <button id="btnCerrarStats" class="close-btn">&times;</button>
       </div>
-      
       <div class="tabs">
         <button class="tab-btn active" data-tab="diario">📅 Diario</button>
         <button class="tab-btn" data-tab="global">🌍 Global</button>
         <button class="tab-btn" data-tab="detalle">🔍 Detalle jugador</button>
       </div>
-
       <div id="tabDiario" class="tab-content active">
         <h3>Resumen del día <span id="fechaActual"></span></h3>
         <div id="statsDiario" class="stats-table-container"></div>
         <h3>📆 Días anteriores</h3>
         <div id="statsDiasAnteriores" class="stats-table-container"></div>
       </div>
-
       <div id="tabGlobal" class="tab-content">
         <h3>🏆 Ranking general</h3>
         <div id="statsGlobal" class="stats-table-container"></div>
       </div>
-
       <div id="tabDetalle" class="tab-content">
         <label>Seleccionar jugador:</label>
         <select id="selectJugadorDetalle"></select>
@@ -192,6 +174,82 @@
       <h2 class="mojon-title">¡MOJÓN!</h2>
       <p id="mensajeFinal" class="mojon-mensaje"></p>
       <button id="btnCerrarFinal" class="btn-final">Aceptar</button>
+    </div>
+  </div>
+
+  <!-- MODAL AYUDA -->
+  <div id="modalAyuda" class="modal">
+    <div class="modal-content modal-xl">
+      <div class="modal-header">
+        <h2>📖 Manual de Usuario</h2>
+        <button id="btnCerrarAyuda" class="close-btn">&times;</button>
+      </div>
+      <div class="ayuda-contenido">
+        <h3>📌 ¿Qué es ApuntaMOJÓN?</h3>
+        <p>Aplicación para control de partidas de dominó donde el perdedor completa la palabra <strong>MOJÓN</strong>.</p>
+        
+        <h3>📏 Escala de tantos a letras</h3>
+        <ul>
+          <li>&lt;26 tantos → 1 letra</li>
+          <li>26-50 tantos → 2 letras</li>
+          <li>51-75 tantos → 3 letras</li>
+          <li>76-100 tantos → 4 letras</li>
+          <li>101-125 tantos → 5 letras</li>
+          <li>≥126 tantos → 6 letras (MOJÓN completo)</li>
+        </ul>
+        
+        <h3>📜 Formación de MOJÓN</h3>
+        <ul>
+          <li>1° pérdida → <strong>M</strong></li>
+          <li>2° pérdida → <strong>MO</strong></li>
+          <li>3° pérdida → <strong>MOJ</strong></li>
+          <li>4° pérdida → <strong>MOJO</strong></li>
+          <li>5° pérdida → <strong>MOJÓ</strong> (O → Ó)</li>
+          <li>6° pérdida → <strong>MOJÓN</strong> → <strong>PIERDE</strong></li>
+        </ul>
+        
+        <h3>🎮 Cómo anotar una mano</h3>
+        <ol>
+          <li>Presiona "Anotación"</li>
+          <li>Marca "Un jugador se pegó" si aplica</li>
+          <li>Selecciona quién cerró o pegó</li>
+          <li>Selecciona el/los perdedores</li>
+          <li>Ingresa los tantos acumulados</li>
+          <li>Presiona "Aceptar"</li>
+        </ol>
+        
+        <h3>📊 Significado de estadísticas</h3>
+        <ul>
+          <li><strong>+Gorda:</strong> Máximo de tantos con que perdió</li>
+          <li><strong>% Mojón:</strong> Porcentaje de partidas perdidas</li>
+          <li><strong>Letras acumuladas:</strong> Total de letras recibidas</li>
+        </ul>
+        
+        <h3>💾 Gestión de datos</h3>
+        <ul>
+          <li><strong>Exportar:</strong> Guarda copia de seguridad</li>
+          <li><strong>Importar:</strong> Restaura datos desde archivo</li>
+          <li><strong>Limpiar BD:</strong> Elimina todos los datos (contraseña: <code>mojon</code>)</li>
+        </ul>
+        
+        <h3>❓ Preguntas Frecuentes</h3>
+        <ul>
+          <li><strong>¿Puedo jugar sin conexión?</strong> Sí, es una PWA que funciona offline.</li>
+          <li><strong>¿Cómo instalo la app?</strong> Abre la URL en Chrome → "Añadir a pantalla de inicio".</li>
+          <li><strong>¿Qué pasa si cierro la app?</strong> La partida se guarda automáticamente.</li>
+          <li><strong>¿Los datos están en la nube?</strong> No, solo en tu dispositivo. Exporta para respaldo.</li>
+        </ul>
+        
+        <hr>
+        <div class="creditos">
+          <p><strong>👨‍💻 Desarrollado por Ricardo Castillo (Richard)</strong></p>
+          <p>📧 3sayricardo@gmail.com</p>
+          <p>📱 WhatsApp: +53 55031725</p>
+          <p>📅 Versión 1.0.1 - 2026</p>
+          <p style="margin-top: 12px;">✨ Desarrollado con ❤️ para la comunidad de dominó de 20 y 45 en Gerona y en especial para Jennellys y Sisy ✨</p>
+        </div>
+      </div>
+      <button id="btnCerrarAyudaFinal" class="btn-final" style="margin-top: 16px; width: 100%;">Cerrar</button>
     </div>
   </div>
 </body>
