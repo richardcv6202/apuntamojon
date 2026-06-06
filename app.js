@@ -1,3 +1,11 @@
+// ========== FUNCIÓN AUXILIAR PARA FORMATEAR FECHAS ==========
+function formatearFecha(fechaISO) {
+  if (!fechaISO) return '';
+  const partes = fechaISO.split('-');
+  if (partes.length !== 3) return fechaISO;
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
 // ========== ESTADO GLOBAL ==========
 let jugadores = [];
 let partidaActiva = false;
@@ -22,6 +30,7 @@ const modalFinal = document.getElementById('modalFinal');
 const modalMensaje = document.getElementById('modalMensaje');
 const modalConfirmacion = document.getElementById('modalConfirmacion');
 const modalPassword = document.getElementById('modalPassword');
+const modalAyuda = document.getElementById('modalAyuda');
 
 // ========== FUNCIONES DE MODALES ==========
 function mostrarMensaje(titulo, texto, icono = '⚠️') {
@@ -164,14 +173,6 @@ function obtenerNombres() {
   return nombres;
 }
 
-function habilitarCamposNombres(habilitar) {
-  const num = parseInt(numJugadoresSelect.value);
-  for (let i = 1; i <= num; i++) {
-    const input = document.getElementById(`nombreJugador${i}`);
-    if (input) input.disabled = !habilitar;
-  }
-}
-
 function iniciarPartida() {
   const nombres = obtenerNombres();
   if (!nombres) return;
@@ -184,7 +185,9 @@ function iniciarPartida() {
   
   partidaActiva = true;
   manosPartida = [];
-  fechaPartida = new Date().toISOString().split('T')[0];
+  
+  const hoy = new Date();
+  fechaPartida = hoy.toISOString().split('T')[0];
   
   actualizarProgresoUI();
   btnAnotacion.disabled = false;
@@ -456,7 +459,7 @@ function guardarPartidaEnBD(perdedorFinal) {
         partidasJugadas: 0,
         vecesMojon: 0,
         maxTantos: 0,
-        minTantos: Infinity,
+        minTantos: 0,
         totalLetrasAcumuladas: 0,
         vecesCierre: 0,
         vecesPegue: 0,
@@ -472,7 +475,7 @@ function guardarPartidaEnBD(perdedorFinal) {
     const tantosEnEstaPartida = manosPartida.filter(m => m.perdedores.includes(nom)).map(m => m.tantos);
     tantosEnEstaPartida.forEach(t => {
       if (t > est.maxTantos) est.maxTantos = t;
-      if (t < est.minTantos) est.minTantos = t;
+      if (est.minTantos === 0 || t < est.minTantos) est.minTantos = t;
     });
     
     const letrasPerdidas = manosPartida.filter(m => m.perdedores.includes(nom)).reduce((sum, m) => sum + m.letrasAsignadas, 0);
@@ -490,14 +493,16 @@ function guardarPartidaEnBD(perdedorFinal) {
   actualizarTablasEstadisticas();
 }
 
-// ========== ESTADÍSTICAS ==========
+// ========== ESTADÍSTICAS CORREGIDAS ==========
 function actualizarTablasEstadisticas() {
   const bd = cargarBD();
-  const hoy = new Date().toISOString().split('T')[0];
-  const partidasHoy = bd.partidas.filter(p => p.fecha === hoy);
+  const hoyISO = new Date().toISOString().split('T')[0];
+  const hoyFormateado = formatearFecha(hoyISO);
+  const partidasHoy = bd.partidas.filter(p => p.fecha === hoyISO);
   
-  document.getElementById('fechaActual').innerText = hoy;
+  document.getElementById('fechaActual').innerText = hoyFormateado;
   
+  // ========== TABLA DIARIA ==========
   const statsHoy = {};
   partidasHoy.forEach(p => {
     const perdedor = p.resultadoFinal.perdedorPartida;
@@ -507,38 +512,58 @@ function actualizarTablasEstadisticas() {
     statsHoy[perdedor].partidas++;
     statsHoy[perdedor].mojones++;
     
-    const maxTantoJugador = Math.max(...p.manos.filter(m => m.perdedores.includes(perdedor)).map(m => m.tantos), 0);
-    if (maxTantoJugador > statsHoy[perdedor].maxTantos) {
-      statsHoy[perdedor].maxTantos = maxTantoJugador;
+    const tantosDelPerdedor = p.manos
+      .filter(m => m.perdedores && m.perdedores.includes(perdedor))
+      .map(m => m.tantos);
+    const maxTanto = Math.max(...tantosDelPerdedor, 0);
+    if (maxTanto > statsHoy[perdedor].maxTantos) {
+      statsHoy[perdedor].maxTantos = maxTanto;
     }
   });
   
-  const rankingHoy = Object.entries(statsHoy)
-    .map(([nom, data]) => ({ nombre: nom, ...data }))
-    .sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
+  const rankingHoy = Object.keys(statsHoy).map(nombre => ({
+    nombre: nombre,
+    partidas: statsHoy[nombre].partidas,
+    mojones: statsHoy[nombre].mojones,
+    maxTantos: statsHoy[nombre].maxTantos
+  })).sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
   
-  let diarioHtml = '<table class="stats-table"><thead>一面<th>Jugador</th><th>Partidas</th><th>Mojones</th><th>+Gorda</th></thead><tbody>';
-  rankingHoy.forEach(r => {
-    diarioHtml += `<tr><td>${r.nombre}</td>}&#{64}${r.partidas}${r.nombre} \n   }\n   `;
-    diarioHtml += `<tr><td>${r.partidas}</td><td>${r.mojones}</td><td>${r.maxTantos}</td></tr>`;
-  });
-  diarioHtml += '</tbody></table>';
-  document.getElementById('statsDiario').innerHTML = diarioHtml || '<p>Sin partidas hoy</p>';
+  let diarioHtml = '';
+  if (rankingHoy.length === 0) {
+    diarioHtml = '<div class="stats-empty">📭 No hay partidas registradas hoy</div>';
+  } else {
+    diarioHtml = '<div class="stats-table-container"><table class="stats-table"><thead><tr><th>Jugador</th><th>Partidas</th><th>Mojones</th><th>+Gorda</th></tr></thead><tbody>';
+    rankingHoy.forEach(r => {
+      diarioHtml += '<tr>';
+      diarioHtml += '<td>' + (r.nombre || '?') + '</td>';
+      diarioHtml += '<td>' + (r.partidas || 0) + '</td>';
+      diarioHtml += '<td>' + (r.mojones || 0) + '</td>';
+      diarioHtml += '<td>' + (r.maxTantos || 0) + '</td>';
+      diarioHtml += '</tr>';
+    });
+    diarioHtml += '</tbody></table></div>';
+  }
+  document.getElementById('statsDiario').innerHTML = diarioHtml;
   
+  // ========== DÍAS ANTERIORES ==========
   const diasMap = {};
   bd.partidas.forEach(p => {
-    if (p.fecha !== hoy) {
+    if (p.fecha !== hoyISO) {
       if (!diasMap[p.fecha]) diasMap[p.fecha] = [];
       diasMap[p.fecha].push(p);
     }
   });
   
   let diasHtml = '';
-  Object.entries(diasMap)
-    .sort((a, b) => b[0].localeCompare(a[0]))
-    .forEach(([fecha, partidas]) => {
-      diasHtml += `<div class="fecha-grupo">📅 ${fecha}</div>`;
-      diasHtml += '<table class="stats-table"><thead>一面<th>Jugador</th><th>Manos</th><th>Mojones</th><th>+Gorda</th></thead><tbody>';
+  if (Object.keys(diasMap).length === 0) {
+    diasHtml = '<div class="stats-empty">📭 No hay partidas de días anteriores</div>';
+  } else {
+    const fechasOrdenadas = Object.keys(diasMap).sort().reverse();
+    for (const fechaISO of fechasOrdenadas) {
+      const fechaFormateada = formatearFecha(fechaISO);
+      const partidas = diasMap[fechaISO];
+      diasHtml += '<div class="fecha-grupo">📅 ' + fechaFormateada + '</div>';
+      diasHtml += '<div class="stats-table-container"><table class="stats-table"><thead><tr><th>Jugador</th><th>Manos</th><th>Mojones</th><th>+Gorda</th></tr></thead><tbody>';
       
       const statsFecha = {};
       partidas.forEach(p => {
@@ -549,53 +574,71 @@ function actualizarTablasEstadisticas() {
         statsFecha[perdedor].manos += p.resultadoFinal.manosTotales;
         statsFecha[perdedor].mojones++;
         
-        const maxTantoJugador = Math.max(...p.manos.filter(m => m.perdedores.includes(perdedor)).map(m => m.tantos), 0);
-        if (maxTantoJugador > statsFecha[perdedor].maxTantos) {
-          statsFecha[perdedor].maxTantos = maxTantoJugador;
+        const tantosDelPerdedor = p.manos
+          .filter(m => m.perdedores && m.perdedores.includes(perdedor))
+          .map(m => m.tantos);
+        const maxTanto = Math.max(...tantosDelPerdedor, 0);
+        if (maxTanto > statsFecha[perdedor].maxTantos) {
+          statsFecha[perdedor].maxTantos = maxTanto;
         }
       });
       
-      Object.entries(statsFecha)
-        .sort((a, b) => b[1].mojones - a[1].mojones || b[1].maxTantos - a[1].maxTantos)
-        .forEach(([nom, data]) => {
-          diasHtml += `<tr><td>${nom}</td><td>${data.manos}</td><td>${data.mojones}</td><td>${data.maxTantos}</td></tr>`;
-        });
+      const rankingFecha = Object.keys(statsFecha).map(nombre => ({
+        nombre: nombre,
+        manos: statsFecha[nombre].manos,
+        mojones: statsFecha[nombre].mojones,
+        maxTantos: statsFecha[nombre].maxTantos
+      })).sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
       
-      diasHtml += '</tbody></table>';
-    });
+      for (const r of rankingFecha) {
+        diasHtml += '<tr>';
+        diasHtml += '<td>' + (r.nombre || '?') + '</td>';
+        diasHtml += '<td>' + (r.manos || 0) + '</td>';
+        diasHtml += '<td>' + (r.mojones || 0) + '</td>';
+        diasHtml += '<td>' + (r.maxTantos || 0) + '</td>';
+        diasHtml += '</tr>';
+      }
+      diasHtml += '</tbody></table></div>';
+    }
+  }
+  document.getElementById('statsDiasAnteriores').innerHTML = diasHtml;
   
-  document.getElementById('statsDiasAnteriores').innerHTML = diasHtml || '<p>Sin partidas anteriores</p>';
+  // ========== RANKING GLOBAL ==========
+  const rankingGlobal = Object.keys(bd.estadisticasJugador).map(nombre => {
+    const s = bd.estadisticasJugador[nombre];
+    const porcentaje = s.partidasJugadas > 0 ? ((s.vecesMojon / s.partidasJugadas) * 100).toFixed(1) : 0;
+    return {
+      nombre: nombre,
+      partidas: s.partidasJugadas || 0,
+      manosTotales: s.manosTotales || 0,
+      mojones: s.vecesMojon || 0,
+      porcentaje: porcentaje,
+      maxTantos: s.maxTantos || 0,
+      cierres: s.vecesCierre || 0,
+      pegues: s.vecesPegue || 0
+    };
+  }).sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
   
-  const ranking = Object.entries(bd.estadisticasJugador)
-    .map(([nom, st]) => ({
-      nombre: nom,
-      mojones: st.vecesMojon,
-      maxTantos: st.maxTantos,
-      partidas: st.partidasJugadas,
-      porcentajeMojon: st.partidasJugadas > 0 ? ((st.vecesMojon / st.partidasJugadas) * 100).toFixed(1) : 0,
-      manosTotales: st.manosTotales || 0
-    }))
-    .sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
-  
-  let globalHtml = '<table class="stats-table"><thead><tr><th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></tr></thead><tbody>';
-  ranking.forEach(r => {
-    globalHtml += `<tr>
-      <td>${r.nombre}</td>
-      <td>${r.partidas}</td>
-      <td>${r.manosTotales}</td>
-      <td>${r.mojones}</td>
-      <td>${r.porcentajeMojon}%</td>
-      <td>${r.maxTantos}</td>
-      <td>${bd.estadisticasJugador[r.nombre]?.vecesCierre || 0}</td>
-      <td>${bd.estadisticasJugador[r.nombre]?.vecesPegue || 0}</td>
-    </tr>`;
-  });
-  globalHtml += '</tbody></table>';
+  let globalHtml = '<div class="stats-table-container"><table class="stats-table"><thead><tr><th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></tr></thead><tbody>';
+  for (const r of rankingGlobal) {
+    globalHtml += '<tr>';
+    globalHtml += '<td>' + (r.nombre || '?') + '</td>';
+    globalHtml += '<td>' + r.partidas + '</td>';
+    globalHtml += '<td>' + r.manosTotales + '</td>';
+    globalHtml += '<td>' + r.mojones + '</td>';
+    globalHtml += '<td>' + r.porcentaje + '%</td>';
+    globalHtml += '<td>' + r.maxTantos + '</td>';
+    globalHtml += '<td>' + r.cierres + '</td>';
+    globalHtml += '<td>' + r.pegues + '</td>';
+    globalHtml += '</tr>';
+  }
+  globalHtml += '</tbody></table></div>';
   document.getElementById('statsGlobal').innerHTML = globalHtml;
   
+  // ========== SELECTOR DETALLE ==========
   const selectDetalle = document.getElementById('selectJugadorDetalle');
   if (selectDetalle) {
-    selectDetalle.innerHTML = '<option value="">Seleccionar...</option>';
+    selectDetalle.innerHTML = '<option value="">Seleccionar jugador...</option>';
     Object.keys(bd.estadisticasJugador).sort().forEach(nom => {
       const opt = document.createElement('option');
       opt.value = nom;
@@ -612,6 +655,11 @@ function mostrarDetalleJugador(nombre) {
   
   const porcentajeMojon = stats.partidasJugadas > 0 ? ((stats.vecesMojon / stats.partidasJugadas) * 100).toFixed(1) : 0;
   
+  let minTantosMostrar = 0;
+  if (stats.minTantos && stats.minTantos !== Infinity && stats.minTantos !== 0) {
+    minTantosMostrar = stats.minTantos;
+  }
+  
   let html = `
     <div class="detalle-jugador">
       <div class="detalle-header">
@@ -620,7 +668,7 @@ function mostrarDetalleJugador(nombre) {
       <div class="detalle-grid">
         <div class="detalle-item">
           <span class="detalle-label">📊 Partidas jugadas</span>
-          <span class="detalle-valor">${stats.partidasJugadas}</span>
+          <span class="detalle-valor">${stats.partidasJugadas || 0}</span>
         </div>
         <div class="detalle-item">
           <span class="detalle-label">🃏 Manos totales</span>
@@ -628,27 +676,27 @@ function mostrarDetalleJugador(nombre) {
         </div>
         <div class="detalle-item">
           <span class="detalle-label">💩 Veces MOJÓN</span>
-          <span class="detalle-valor">${stats.vecesMojon} <span class="detalle-sub">(${porcentajeMojon}%)</span></span>
+          <span class="detalle-valor">${stats.vecesMojon || 0} <span class="detalle-sub">(${porcentajeMojon}%)</span></span>
         </div>
         <div class="detalle-item">
           <span class="detalle-label">🐪 Máximo tantos (Gorda)</span>
-          <span class="detalle-valor">${stats.maxTantos}</span>
+          <span class="detalle-valor">${stats.maxTantos || 0}</span>
         </div>
         <div class="detalle-item">
           <span class="detalle-label">🍼 Mínimo tantos</span>
-          <span class="detalle-valor">${stats.minTantos === Infinity ? '-' : stats.minTantos}</span>
+          <span class="detalle-valor">${minTantosMostrar}</span>
         </div>
         <div class="detalle-item">
           <span class="detalle-label">🔤 Letras acumuladas</span>
-          <span class="detalle-valor">${stats.totalLetrasAcumuladas}</span>
+          <span class="detalle-valor">${stats.totalLetrasAcumuladas || 0}</span>
         </div>
         <div class="detalle-item">
           <span class="detalle-label">🏆 Veces que cerró</span>
-          <span class="detalle-valor">${stats.vecesCierre}</span>
+          <span class="detalle-valor">${stats.vecesCierre || 0}</span>
         </div>
         <div class="detalle-item">
           <span class="detalle-label">🎯 Veces que pegó</span>
-          <span class="detalle-valor">${stats.vecesPegue}</span>
+          <span class="detalle-valor">${stats.vecesPegue || 0}</span>
         </div>
       </div>
     </div>
@@ -748,7 +796,7 @@ function initTabs() {
 
 // ========== AYUDA ==========
 function abrirManual() {
-  window.open('./manual_apuntamojon.html', '_blank');
+  modalAyuda.style.display = 'flex';
 }
 
 // ========== EVENTOS ==========
@@ -781,6 +829,8 @@ document.getElementById('fileImport').onchange = (e) => {
   modalImportExport.style.display = 'none';
 };
 document.getElementById('btnCerrarFinal').onclick = cerrarModalFinal;
+document.getElementById('btnCerrarAyuda').onclick = () => modalAyuda.style.display = 'none';
+document.getElementById('btnCerrarAyudaFinal').onclick = () => modalAyuda.style.display = 'none';
 
 document.getElementById('selectJugadorDetalle').addEventListener('change', (e) => {
   if (e.target.value) mostrarDetalleJugador(e.target.value);
@@ -794,6 +844,7 @@ window.onclick = (e) => {
   if (e.target === modalMensaje) modalMensaje.style.display = 'none';
   if (e.target === modalConfirmacion) modalConfirmacion.style.display = 'none';
   if (e.target === modalPassword) modalPassword.style.display = 'none';
+  if (e.target === modalAyuda) modalAyuda.style.display = 'none';
 };
 
 // ========== INICIALIZACIÓN ==========
