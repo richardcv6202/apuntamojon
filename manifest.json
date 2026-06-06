@@ -11,6 +11,7 @@
   "lang": "es",
   "dir": "ltr",
   "categories": ["games", "sports", "entertainment"],
+  "version": "1.0.1",
   "icons": [
     {
       "src": "./icon-192.png",
@@ -31,24 +32,14 @@
       "short_name": "Nueva",
       "description": "Iniciar una nueva partida",
       "url": "./index.html",
-      "icons": [
-        {
-          "src": "./icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Ver estadísticas",
       "short_name": "Stats",
       "description": "Ver estadísticas del juego",
       "url": "./index.html?tab=estadisticas",
-      "icons": [
-        {
-          "src": "./icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
