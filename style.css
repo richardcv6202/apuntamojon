@@ -25,6 +25,7 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* ========== HEADER ========== */
 header {
   text-align: center;
   margin-bottom: 10px;
@@ -39,6 +40,7 @@ header h1 {
   color: #7a5a3a;
 }
 
+/* ========== CARDS ========== */
 .card {
   background: #fffaf2;
   border-radius: 22px;
@@ -59,6 +61,7 @@ header h1 {
   color: #4a2e1e;
 }
 
+/* ========== SELECTOR DE JUGADORES ========== */
 .jugador-selector {
   display: flex;
   gap: 6px;
@@ -75,6 +78,7 @@ header h1 {
   font-size: 0.85rem;
 }
 
+/* ========== GRID DE NOMBRES ========== */
 .nombres-grid {
   display: flex;
   flex-direction: column;
@@ -122,6 +126,7 @@ header h1 {
   cursor: not-allowed;
 }
 
+/* ========== PROGRESO MOJÓN ========== */
 .progreso-individual {
   display: flex;
   justify-content: space-between;
@@ -153,6 +158,7 @@ header h1 {
   font-weight: bold;
 }
 
+/* ========== BOTONERA ========== */
 .botonera {
   display: flex;
   flex-wrap: wrap;
@@ -197,6 +203,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* ========== FOOTER RANGOS ========== */
 .rangos {
   text-align: center;
   font-size: 0.7rem;
@@ -207,6 +214,7 @@ button:disabled {
   margin-top: 6px;
 }
 
+/* ========== MODALES GENERALES ========== */
 .modal {
   display: none;
   position: fixed;
@@ -237,6 +245,7 @@ button:disabled {
   max-height: 90vh;
 }
 
+/* ========== MODAL ANOTACIÓN ========== */
 .separador-modal {
   height: 1px;
   background: linear-gradient(90deg, transparent, #d4b896, transparent);
@@ -290,6 +299,7 @@ button:disabled {
   color: #4a2e1e;
 }
 
+/* ========== MODAL MENSAJE ========== */
 .modal-content-mensaje {
   background: linear-gradient(135deg, #fff8ef 0%, #f5e6d3 100%);
   border-radius: 32px;
@@ -311,6 +321,7 @@ button:disabled {
   line-height: 1.4;
 }
 
+/* ========== MODAL CONFIRMACIÓN ========== */
 .modal-content-confirmacion {
   background: linear-gradient(135deg, #fff8ef 0%, #f5e6d3 100%);
   border-radius: 32px;
@@ -340,6 +351,7 @@ button:disabled {
   max-width: 120px;
 }
 
+/* ========== MODAL FINAL ========== */
 .modal-content-final {
   background: linear-gradient(135deg, #8b5a2b 0%, #5c3a1a 100%);
   border-radius: 48px;
@@ -351,26 +363,16 @@ button:disabled {
   animation: modalEntrar 0.3s ease-out;
 }
 @keyframes modalEntrar {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 .mojon-icon {
   font-size: 5rem;
   animation: bounce 0.5s ease;
 }
 @keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
 .mojon-title {
   font-size: 2.5rem;
@@ -406,6 +408,7 @@ button:disabled {
   transform: scale(1.02);
 }
 
+/* ========== MODAL HEADER ========== */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -424,6 +427,7 @@ button:disabled {
   opacity: 0.7;
 }
 
+/* ========== FORMULARIOS EN MODALES ========== */
 .opciones-lista.radio-group,
 .opciones-lista.checkbox-group {
   display: flex;
@@ -432,7 +436,6 @@ button:disabled {
   margin: 8px 0 4px;
   justify-content: center;
 }
-
 .opciones-lista.radio-group label,
 .opciones-lista.checkbox-group label {
   display: flex;
@@ -446,12 +449,10 @@ button:disabled {
   cursor: pointer;
   transition: background 0.1s;
 }
-
 .opciones-lista.radio-group label:hover,
 .opciones-lista.checkbox-group label:hover {
   background: #e6d5bd;
 }
-
 .opciones-lista input[type="radio"],
 .opciones-lista input[type="checkbox"] {
   width: 16px;
@@ -489,8 +490,7 @@ button:disabled {
   margin-bottom: 14px;
 }
 
-input,
-select {
+input, select {
   padding: 8px 11px;
   border-radius: 40px;
   border: 1px solid #cfb284;
@@ -498,8 +498,7 @@ select {
   font-size: 0.85rem;
   background: white;
 }
-input:focus,
-select:focus {
+input:focus, select:focus {
   outline: none;
   border-color: #8b5a2b;
 }
@@ -513,6 +512,7 @@ select:focus {
   background: #b48b5a;
 }
 
+/* ========== IMPORT/EXPORT ========== */
 .import-export-buttons {
   display: flex;
   gap: 12px;
@@ -522,6 +522,7 @@ select:focus {
   flex: 1;
 }
 
+/* ========== TABS ESTADÍSTICAS ========== */
 .tabs {
   display: flex;
   gap: 8px;
@@ -550,6 +551,7 @@ select:focus {
   color: #4a2e1e;
 }
 
+/* ========== TABLAS ESTADÍSTICAS ========== */
 .stats-table-container {
   overflow-x: auto;
   margin: 10px 0;
@@ -557,13 +559,15 @@ select:focus {
 .stats-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  min-width: 300px;
 }
 .stats-table th,
 .stats-table td {
   border: 1px solid #ddc7a8;
   padding: 8px 6px;
   text-align: center;
+  white-space: nowrap;
 }
 .stats-table th {
   background: #8b5a2b;
@@ -574,6 +578,7 @@ select:focus {
   background: #f5eddf;
 }
 
+/* ========== GRUPOS DE FECHA ========== */
 .fecha-grupo {
   background: #dbbc91;
   margin-top: 16px;
@@ -588,6 +593,7 @@ select:focus {
   margin-top: 0;
 }
 
+/* ========== DETALLE DEL JUGADOR ========== */
 .detalle-jugador {
   background: #f4e9db;
   border-radius: 24px;
@@ -641,12 +647,47 @@ select:focus {
   color: #8b5a2b;
 }
 
+/* ========== MODAL DE AYUDA ========== */
+.ayuda-contenido {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.ayuda-contenido h3 {
+  background: #e6d5bd;
+  padding: 8px 12px;
+  border-radius: 40px;
+  margin: 16px 0 8px;
+  font-size: 1rem;
+  color: #4a2e1e;
+}
+.ayuda-contenido ul, .ayuda-contenido ol {
+  margin-left: 20px;
+  margin-bottom: 12px;
+}
+.ayuda-contenido li {
+  margin: 6px 0;
+  color: #5e3a22;
+}
+.creditos {
+  background: #f0e2cf;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  margin-top: 16px;
+}
+.creditos p {
+  margin: 4px 0;
+  color: #4a2e1e;
+}
+
 hr {
   margin: 12px 0;
   border: none;
   border-top: 1px solid #ddc7a8;
 }
 
+/* ========== RESPONSIVE ========== */
 @media (max-width: 480px) {
   .detalle-grid {
     grid-template-columns: 1fr;
@@ -667,7 +708,8 @@ hr {
     font-size: 1.1rem;
   }
   .stats-table {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+    min-width: 280px;
   }
   .stats-table th,
   .stats-table td {
