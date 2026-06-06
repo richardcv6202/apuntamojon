@@ -30,7 +30,6 @@ const modalFinal = document.getElementById('modalFinal');
 const modalMensaje = document.getElementById('modalMensaje');
 const modalConfirmacion = document.getElementById('modalConfirmacion');
 const modalPassword = document.getElementById('modalPassword');
-const modalAyuda = document.getElementById('modalAyuda');
 
 // ========== FUNCIONES DE MODALES ==========
 function mostrarMensaje(titulo, texto, icono = '⚠️') {
@@ -493,7 +492,7 @@ function guardarPartidaEnBD(perdedorFinal) {
   actualizarTablasEstadisticas();
 }
 
-// ========== ESTADÍSTICAS CORREGIDAS ==========
+// ========== ESTADÍSTICAS ==========
 function actualizarTablasEstadisticas() {
   const bd = cargarBD();
   const hoyISO = new Date().toISOString().split('T')[0];
@@ -502,7 +501,7 @@ function actualizarTablasEstadisticas() {
   
   document.getElementById('fechaActual').innerText = hoyFormateado;
   
-  // ========== TABLA DIARIA ==========
+  // Tabla diaria
   const statsHoy = {};
   partidasHoy.forEach(p => {
     const perdedor = p.resultadoFinal.perdedorPartida;
@@ -545,7 +544,7 @@ function actualizarTablasEstadisticas() {
   }
   document.getElementById('statsDiario').innerHTML = diarioHtml;
   
-  // ========== DÍAS ANTERIORES ==========
+  // Días anteriores
   const diasMap = {};
   bd.partidas.forEach(p => {
     if (p.fecha !== hoyISO) {
@@ -603,7 +602,7 @@ function actualizarTablasEstadisticas() {
   }
   document.getElementById('statsDiasAnteriores').innerHTML = diasHtml;
   
-  // ========== RANKING GLOBAL ==========
+  // Ranking global
   const rankingGlobal = Object.keys(bd.estadisticasJugador).map(nombre => {
     const s = bd.estadisticasJugador[nombre];
     const porcentaje = s.partidasJugadas > 0 ? ((s.vecesMojon / s.partidasJugadas) * 100).toFixed(1) : 0;
@@ -619,7 +618,7 @@ function actualizarTablasEstadisticas() {
     };
   }).sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
   
-  let globalHtml = '<div class="stats-table-container"><table class="stats-table"><thead><tr><th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></tr></thead><tbody>';
+  let globalHtml = '<div class="stats-table-container"><table class="stats-table"><thead>一面<th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></tr></thead><tbody>';
   for (const r of rankingGlobal) {
     globalHtml += '<tr>';
     globalHtml += '<td>' + (r.nombre || '?') + '</td>';
@@ -630,12 +629,12 @@ function actualizarTablasEstadisticas() {
     globalHtml += '<td>' + r.maxTantos + '</td>';
     globalHtml += '<td>' + r.cierres + '</td>';
     globalHtml += '<td>' + r.pegues + '</td>';
-    globalHtml += '</tr>';
+    globalHtml += '<tr>';
   }
-  globalHtml += '</tbody></table></div>';
+  globalHtml += '</tbody><tr></div>';
   document.getElementById('statsGlobal').innerHTML = globalHtml;
   
-  // ========== SELECTOR DETALLE ==========
+  // Selector detalle
   const selectDetalle = document.getElementById('selectJugadorDetalle');
   if (selectDetalle) {
     selectDetalle.innerHTML = '<option value="">Seleccionar jugador...</option>';
@@ -794,9 +793,10 @@ function initTabs() {
   });
 }
 
-// ========== AYUDA ==========
+// ========== AYUDA - CORREGIDO ==========
 function abrirManual() {
-  modalAyuda.style.display = 'flex';
+  // Abre el manual en una nueva pestaña/ventana
+  window.open('./manual_apuntamojon.html', '_blank');
 }
 
 // ========== EVENTOS ==========
@@ -829,8 +829,6 @@ document.getElementById('fileImport').onchange = (e) => {
   modalImportExport.style.display = 'none';
 };
 document.getElementById('btnCerrarFinal').onclick = cerrarModalFinal;
-document.getElementById('btnCerrarAyuda').onclick = () => modalAyuda.style.display = 'none';
-document.getElementById('btnCerrarAyudaFinal').onclick = () => modalAyuda.style.display = 'none';
 
 document.getElementById('selectJugadorDetalle').addEventListener('change', (e) => {
   if (e.target.value) mostrarDetalleJugador(e.target.value);
@@ -844,7 +842,6 @@ window.onclick = (e) => {
   if (e.target === modalMensaje) modalMensaje.style.display = 'none';
   if (e.target === modalConfirmacion) modalConfirmacion.style.display = 'none';
   if (e.target === modalPassword) modalPassword.style.display = 'none';
-  if (e.target === modalAyuda) modalAyuda.style.display = 'none';
 };
 
 // ========== INICIALIZACIÓN ==========
