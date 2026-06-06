@@ -492,7 +492,7 @@ function guardarPartidaEnBD(perdedorFinal) {
   actualizarTablasEstadisticas();
 }
 
-// ========== ESTADÍSTICAS ==========
+// ========== ESTADÍSTICAS CORREGIDAS (SIN CARACTERES CHINOS) ==========
 function actualizarTablasEstadisticas() {
   const bd = cargarBD();
   const hoyISO = new Date().toISOString().split('T')[0];
@@ -501,7 +501,7 @@ function actualizarTablasEstadisticas() {
   
   document.getElementById('fechaActual').innerText = hoyFormateado;
   
-  // Tabla diaria
+  // ========== TABLA DIARIA ==========
   const statsHoy = {};
   partidasHoy.forEach(p => {
     const perdedor = p.resultadoFinal.perdedorPartida;
@@ -538,13 +538,13 @@ function actualizarTablasEstadisticas() {
       diarioHtml += '<td>' + (r.partidas || 0) + '</td>';
       diarioHtml += '<td>' + (r.mojones || 0) + '</td>';
       diarioHtml += '<td>' + (r.maxTantos || 0) + '</td>';
-      diarioHtml += '</tr>';
+      diarioHtml += '<tr>';
     });
     diarioHtml += '</tbody></table></div>';
   }
   document.getElementById('statsDiario').innerHTML = diarioHtml;
   
-  // Días anteriores
+  // ========== DÍAS ANTERIORES ==========
   const diasMap = {};
   bd.partidas.forEach(p => {
     if (p.fecha !== hoyISO) {
@@ -590,7 +590,7 @@ function actualizarTablasEstadisticas() {
       })).sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
       
       for (const r of rankingFecha) {
-        diasHtml += '<tr>';
+        diasHtml += '</tr>';
         diasHtml += '<td>' + (r.nombre || '?') + '</td>';
         diasHtml += '<td>' + (r.manos || 0) + '</td>';
         diasHtml += '<td>' + (r.mojones || 0) + '</td>';
@@ -602,7 +602,7 @@ function actualizarTablasEstadisticas() {
   }
   document.getElementById('statsDiasAnteriores').innerHTML = diasHtml;
   
-  // Ranking global
+  // ========== RANKING GLOBAL - CORREGIDO (SIN CARACTERES CHINOS) ==========
   const rankingGlobal = Object.keys(bd.estadisticasJugador).map(nombre => {
     const s = bd.estadisticasJugador[nombre];
     const porcentaje = s.partidasJugadas > 0 ? ((s.vecesMojon / s.partidasJugadas) * 100).toFixed(1) : 0;
@@ -618,7 +618,9 @@ function actualizarTablasEstadisticas() {
     };
   }).sort((a, b) => b.mojones - a.mojones || b.maxTantos - a.maxTantos);
   
-  let globalHtml = '<div class="stats-table-container"><table class="stats-table"><thead>一面<th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></tr></thead><tbody>';
+  let globalHtml = '<div class="stats-table-container"><table class="stats-table"><thead>';
+  globalHtml += '<tr><th>Jugador</th><th>Partidas</th><th>Manos</th><th>Mojones</th><th>% Mojón</th><th>+Gorda</th><th>Cierres</th><th>Pegues</th></tr>';
+  globalHtml += '</thead><tbody>';
   for (const r of rankingGlobal) {
     globalHtml += '<tr>';
     globalHtml += '<td>' + (r.nombre || '?') + '</td>';
@@ -629,12 +631,12 @@ function actualizarTablasEstadisticas() {
     globalHtml += '<td>' + r.maxTantos + '</td>';
     globalHtml += '<td>' + r.cierres + '</td>';
     globalHtml += '<td>' + r.pegues + '</td>';
-    globalHtml += '<tr>';
+    globalHtml += '</tr>';
   }
-  globalHtml += '</tbody><tr></div>';
+  globalHtml += '</tbody></table></div>';
   document.getElementById('statsGlobal').innerHTML = globalHtml;
   
-  // Selector detalle
+  // ========== SELECTOR DETALLE ==========
   const selectDetalle = document.getElementById('selectJugadorDetalle');
   if (selectDetalle) {
     selectDetalle.innerHTML = '<option value="">Seleccionar jugador...</option>';
@@ -793,9 +795,8 @@ function initTabs() {
   });
 }
 
-// ========== AYUDA - CORREGIDO ==========
+// ========== AYUDA ==========
 function abrirManual() {
-  // Abre el manual en una nueva pestaña/ventana
   window.open('./manual_apuntamojon.html', '_blank');
 }
 
