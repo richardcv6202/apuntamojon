@@ -1,4 +1,6 @@
-const CACHE_NAME = 'apunta-mojon-v2';
+const CACHE_NAME = 'apunta-mojon-v1.0.1';
+const OFFLINE_URL = './index.html';
+
 const urlsToCache = [
   './',
   './index.html',
